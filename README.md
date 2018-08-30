@@ -1,2 +1,2 @@
-# Proyecto Programacion Orientada a objetos Esta es mi opinión
-Proyecto. Freelance Trabajadores
+# Proyecto Programacion Orientada a objetos
+# Proyecto. Freelance Trabajadores
