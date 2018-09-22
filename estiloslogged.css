@@ -1,0 +1,49 @@
+.ingresoslogged{
+	background: url("imagenes/descarga.JPG");
+	border-radius: 55px;
+	border: 11px solid #000;
+	margin: 50px 50px;
+	padding: 5px 50px;	
+}.Bienvenido{
+	position: relative;
+	left: 75px;
+	font-size: 75px;
+	width: 77%;
+	background:red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 55px;
+	text-align: center;
+}
+
+h2{
+	color:red;
+	font-size: 50px;
+	text-align: left;
+	position: relative;
+	left:1000px;
+	bottom: 700px;
+}
+h3{
+	font-size: 31px;
+}
+.novedad1{
+	background: #000;
+	border:5px solid #000;
+	color:white;
+	width: 41%;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 17px;
+	text-align: center;
+}
+.novedad2{
+	background: #000;
+	border:5px solid #000;
+	color:white;
+	width: 41%;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 17px;
+	text-align: center;
+	position: relative;
+	left:700px;
+}

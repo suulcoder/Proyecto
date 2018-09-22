@@ -1,0 +1,48 @@
+.MisCursos{
+	background: red;
+	color:white;
+	box-shadow: 0px 10px 0px #fff;
+	border: 3px solid #9F0101
+	width:100px;
+	font-size: 40px;
+	text-align: center;
+}
+.MisCursos:hover{
+	background: red;
+	box-shadow: 0px 2px 0px #fff;
+	font-size: 40px;
+	text-align: center;
+}
+.MisCursos:active{
+	background: black;
+	box-shadow: 0px 2px 0px #000;
+	font-size: 40px;
+	text-align: center;
+}
+.curso1{
+	background: #fff;
+	border:5px solid #000;
+	color:black;
+	border-radius: 17px;
+	text-align: center;
+	text-shadow:0px 0px 0px #000;
+}
+.curso2{
+	background: #fff;
+	border:5px solid #000;
+	color:black;
+	width: 41%;
+	border-radius: 17px;
+	text-align: center;
+	position: relative;
+	left:700px;
+	text-shadow:0px 0x 0px #000;
+}
+.CursoTitulo{
+	background:red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 55px;
+	text-align: center;
+	font-size: 37px;
+}

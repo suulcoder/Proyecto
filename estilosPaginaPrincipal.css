@@ -1,0 +1,166 @@
+header{
+	background: rgb(1, 0, 0, 0.7);
+	height: 300px;
+}
+a{
+	text-decoration: none;
+}
+.logo{
+	background-attachment: fixed;
+	border-radius:87px;
+	margin: 30px 50px;
+}
+.Encabezado{
+	color:red;
+	font-size: 250px;
+	position: relative;
+	left:350px;
+	bottom:500px;
+	font-family: "";
+}
+.menu{
+	text-align: center;
+	font-size: 55px;
+	border: 3px solid #000
+	margin: 15px 50px;
+	padding: 1px 50px;
+	height: 41px;
+}
+ul li{
+	display: inline-block;
+	background: red;
+	padding: 5px 2px;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 10px 0px #fff;
+	border: 3px solid #9F0101
+}
+ul li:hover{
+	background: red;
+	padding: 5px 2px;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #fff;
+}
+ul li:active{
+	background: black;
+	padding: 5px 2px;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #000;
+}
+.ingresos{
+	background: url("imagenes/descarga.JPG");
+	border-radius: 55px;
+	border: 11px solid #000;
+	margin: 50px 50px;
+	padding: 5px 50px;
+	height: 1300px;	
+}
+.login p{
+	position: relative;
+	left: 75px;
+	font-size: 75px;
+	width: 31%;
+	background:red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 55px;
+	text-align: center;
+}
+.login form{
+	background: #000;
+	border:5px solid #000;
+	width: 39%;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 17px;
+	text-align: center;
+}
+.formulario p{
+	position: relative;
+	bottom:630px;
+	left: 765px;
+	font-size: 75px;
+	width: 31%;
+	background:red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 55px;
+	text-align: center;
+}
+.formulario form{
+	position: relative;
+	bottom:630px;
+	left: 700px;
+	background: #000;
+	border:5px solid #000;
+	width: 39%;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 17px;
+	text-align: center;
+}
+#botonLogin{
+	background: red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 10px 0px #fff;
+	border: 3px solid #9F0101
+	font-size:37px;
+}
+#botonLogin:hover{
+	background: red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #fff;
+}
+#botonLogin:active{
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #000;
+}
+#botonSign{
+	background: red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 10px 0px #fff;
+	border: 3px solid #9F0101
+}
+#botonSign:hover{
+	background: red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #fff;
+}
+#botonSign:active{
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	box-shadow: 0px 2px 0px #000;
+}
+input{
+	font-size: 35px;
+}
+label{
+	font-size: 35px;
+}
+body{
+	background: url("imagenes/images.JPG")
+}
+footer{
+	background: rgb(1, 0, 0, 0.7);
+	height: 100px;
+	color: white;
+}
+.form{
+	position: relative;
+	left: 300px;
+	width: 50%;
+	background:red;
+	color:white;
+	text-shadow:2px 2px 2px #000;
+	border-radius: 55px;
+	text-align: center;	
+}
+
+}
