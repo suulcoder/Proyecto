@@ -237,7 +237,7 @@ class DbQueries:
 
     def get_users(self, kw=None, filter=None):
         try:
-            if filter != None:
+            if filter is not None:
                 #   devolveria todo
                 cursor = self.db_users.find()
 
@@ -258,7 +258,7 @@ class DbQueries:
 
     def get_cursos(self, kw=None, filter=None):
         try:
-            if filter != None:
+            if filter is not None:
                 #   devolveria todo
                 cursor = self.db_cursos.find()
 
