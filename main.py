@@ -33,7 +33,7 @@ def index():#Index de URLS
 	formlogin = forms.LoginForm(request.form)
 	userdb = {}
 	if request.method == 'POST' and formlogin.submit1.data and formlogin.validate():
-		userdb = database.get_users('email',formulario.email.data)
+		userdb = database.get_users('email',formulario.email.data)#Me serviria que fuera un Cursor
 		acceso = False
 		try:
 			password = userdb['clave']
@@ -46,7 +46,7 @@ def index():#Index de URLS
 		if acceso == True:
 			return redirect('user')
 	if request.method == 'POST' and formulario.submit2.data and formulario.validate():
-		userdb = database.get_users('email',formulario.email.data).count()
+		userdb = database.get_users('email',formulario.email.data).count()#Que cuente la cantidad que cumpla con el parametro
 		if userdb == 0:
 			flash('Este email ya fue registrado')
 		else:
@@ -60,7 +60,7 @@ def index():#Index de URLS
 
 @app.route('/user')
 def user():#Index de URL
-	return render_template('loggedUser.html')	
+	return render_template('user.html')	
 
 @app.route('/cookie')
 def cookie():
