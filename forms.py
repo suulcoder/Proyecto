@@ -24,3 +24,5 @@ class SignInForm(Form):
 	tipo = RadioField('Tipo de Usuario', choices=[('A','Alumno'),('M','Maestro')])
 	submit2 = SubmitField('Registrar')
 	
+class Contacto(Form):
+	email = EmailField('Email',[validators.DataRequired(message='Campo Requerido)')])

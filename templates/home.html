@@ -1,0 +1,107 @@
+{% extends 'barra.html' %}
+{% block content %}
+ <div class="view" style="background-image: url('../static/img/inicial.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+
+
+<div class="container-fluid" style="padding-top:100px;padding-bottom: 100px" id="Lg">
+    <div class="row align-items-center">
+        <div class="col-6">
+            <div class="card bg-transparent border" style="padding:20px; text-align: center
+            ">
+            <h2 class="text-center">La nueva forma de encontrar información</h2>
+            <h1 class="text-center">Valiosa</h1>  
+            </div>
+          
+            </div>
+        <div class="col-6">
+          <div class="card" style="padding:20px;background-color: rgb(59,104,140)">
+          <h5 class="card-title"><div class="text-center">Ingresa aquí:</div> </h5>
+           <div class="panel panel-default">
+            {% from "_formhelpers.html" import render_field %}
+            <form = method="post" id="login-form">
+            <form>
+              {{ render_field(formLogin.email) }}
+              {{ render_field(formLogin.clave) }}
+              {{ render_field(formLogin.submit1) }}
+              </form>
+            </div>
+        </div> 
+    </div>   
+    </div>
+    </div>      
+</div>
+ <div class="view" style="background-image: url('../static/img/pen.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+ <div class="container-fluid" style="padding-top:100px;padding-bottom: 100px" id="Sg">
+     <div class="row align-items-center">
+        <div class="col-6">
+            <div class="card bg-danger" style="padding:20px;">
+                <h5 class="card-title"><div class="text-center">Registrate aquí:</div></h5>
+           <div class="panel panel-default">
+            {% from "_formhelpers.html" import render_field %}
+            <form = method="post" id="signin-form">
+            <form>
+              {{ render_field(form.nombres) }}
+              {{ render_field(form.apellidos) }}
+              {{ render_field(form.username) }}
+              {{ render_field(form.email) }}
+              {{ render_field(form.clave) }}
+              {{ render_field(form.confirm) }}
+              {% for subfield in form.tipo %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+              {% endfor %}
+              {{ render_field(form.accept) }}
+              {{ render_field(form.submit2) }}
+              </form>
+              </div>
+        </div> 
+        </div> 
+     </div> 
+     <div class="col-6">
+        <div class="card-float-right bg-transparent" style="padding:20px; text-align: center
+            ">
+            <h2 class="text-center">En pocos pasos podrás estar involucrado en cursos altamente competitivos</h2>
+        </div>
+     </div> 
+ </div>
+  <a name="Ab" />
+ <div class="container" name="Ab">
+    <div class="row">
+        <div class="col-12">
+        
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <h1 class="display-4">Un poco sobre Learn4</h1>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis nam excepturi consequatur vel, praesentium fugit dicta quia accusamus pariatur doloremque sequi, nihil beatae laudantium minima est, harum, illo numquam quos?</p>
+              </div>
+            </div>
+        </div>
+    </div>    
+ </div>
+</div>
+<div class="container bg-light" style = "padding: 50px" id="Ct">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-3">Contáctanos</h1>
+<form>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Dirección email</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div>
+<div class="form-group">
+    <label for="exampleFormControlInput1">Nombre</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nombre y apellido">
+</div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Escriba su duda: </label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+</form>            
+                     
+        </div>
+    </div>
+</div>
+<!-- ***********************fINALIZA CONTENIDO *******************************-->     
+{% endblock %}

@@ -1,23 +1,17 @@
 '''
-
 Proyecto Learn4 - Programacion orientada a objetos
-
 Integrantes:
 -
-
-
-
 db_main.py
 PyMongo - 3.7.2
 docs - https://api.mongodb.com/python/current/
-
 '''
 import json
 import os
 import logging
 from db_util import *
 from time import sleep
-from principales import *
+from Principales import *
 from pymongo import MongoClient
 
 #   Logging Setup
@@ -27,7 +21,6 @@ formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s:')
 file_handler = logging.FileHandler('main_info.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
-
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)

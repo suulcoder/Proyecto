@@ -2,35 +2,27 @@ import pymongo
 
 conexion = pymongo.MongoClient()
 db = conexion.Learn4
-coleccion = db.Usuarios
+db_users = db.Usuarios
 db_cursos = db.Cursos
 categorias = []
 
 
 class User:
-    #   Pregunta
-    #   Estas son variables estaticas de clase, alguna razon para ellas ?
-    #   seran para hacer sesiones de los usuarios no ingresados ?
-    username = 'guest'
-    nombres = ''
-    apellidos = ''
-    email = ''
-    clave = ''
-    _id = 12345
 
-    def __init__(self, username, clave, nombre, apellidos, email):
+    def __init__(self, username, clave, nombre, apellidos, email,tipo):
         self.username = username
         self.nombre = nombre
         self.apellidos = apellidos
         self.email = email
-        self.tipo = ''
+        self.tipo = tipo
         self.clave = clave
         self.state = 'logged in'
-        self.id = 1
+        self.id = __generate_id()
 
         #   Cursos
         self.CursosInscritos = []
         self.CursosAdministrados = []
+        __insert()
 
     #   metodos para db / mongo
 
@@ -54,7 +46,7 @@ class User:
         try:
             if self.id == 1:
                 self.__generate_id()
-                dict(username=username, Tipo='Maestro', nombres=nombres, apellidos=apellidos, email=email,
+                dict(username=username, Tipo=tipo, nombres=nombres, apellidos=apellidos, email=email,
                      clave=clave, CursosInscritos=self.CursosInscritos, CursosAdministrados=self.CursosAdministrados)
             db_users.insert(dict(nombre=self.nombre, apellido=self.apellido))
 
@@ -88,7 +80,7 @@ class User:
         return self.username
 
     def getNombres(self):
-        return
+        return self.nombres
 
     def getApellidos(self):
         return self.apellidos
@@ -114,8 +106,8 @@ class User:
 
 class Maestro(User):
 
-    def __init__(self, username, nombres, apellidos, email, clave):
-        Usuario.__init__(self, username, nombres, apellidos, email, clave)
+    def __init__(self, username, nombres, apellidos, email, clave, tipo):
+        Usuario.__init__(self, username, nombres, apellidos, email, clave, tipo)
         self.CursosAdministrados = []
         self.CursosInscritos = []
         #   antes de incertar el usuario a la base de datos se verifica si ya esta.
@@ -156,12 +148,8 @@ class Maestro(User):
 
 class Alumno(User):
 
-    #   igual aqui, alguna razon por la cual esto es variable estatica de la clase?
-    CursosInscritos = []
-    #
-
-    def __init__(self, username, nombres, apellidos, email, clave):
-        Usuario.__init__(self, username, nombres, apellidos, email, clave)
+    def __init__(self, username, nombres, apellidos, email, clave,tipo):
+        Usuario.__init__(self, username, nombres, apellidos, email, clave,tipo)
         self.id_curso = int
 
 
@@ -291,7 +279,6 @@ class DbQueries:
     def _help(self):
         print('''
             \nComandos:\n\n
-
             get_users // devuelve usuarios
             get_cursos // devuelve cursos
                 Ambos gets tienen filteros de nombre/_id/

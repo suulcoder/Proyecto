@@ -1,8 +1,5 @@
 '''
-
 Proyecto Learn4 - Programacion orientada a objetos
-
-
 Funciones para usar en db_main
 PyMongo - 3.7.2
 docs - https://api.mongodb.com/python/current/
@@ -11,7 +8,7 @@ docs - https://api.mongodb.com/python/current/
 import os
 import json
 import random
-from principales import *
+from Principales import *
 from pymongo import MongoClient
 
 
@@ -89,8 +86,3 @@ def to_db(person):
     #   check if in dict add if ID is unused.
     if person['id'] not in users['id']:
         users['id'][person["id"]] = person
-
-
-
-
-

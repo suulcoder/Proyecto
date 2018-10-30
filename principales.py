@@ -1,10 +1,6 @@
 '''
-
 Proyecto Learn4 - Programacion orientada a objetos
-
-
 clases principales
-
 '''
 class User:
     #   clase usuario que deberia ser como se maneja el usuario en django
@@ -48,4 +44,3 @@ class Curso:
 
     def add_leccion(self, leccion):
         self.lecciones.append(leccion)
-
