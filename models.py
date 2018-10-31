@@ -253,7 +253,7 @@ class DbQueries:
 
     def get_users(self, kw=None, filter=None):
         try:
-            if filter is None:
+            if filter is None or kw is None:
                 #   devolveria todo
                 cursor = self.db_users.find()
 
@@ -274,7 +274,7 @@ class DbQueries:
 
     def get_users_count(self, kw=None, filter=None):
         try:
-            if filter is None:
+            if filter is None or kw is None:
                 #   devolveria todo
                 cursor = self.db_users.find().count()
 
@@ -295,7 +295,7 @@ class DbQueries:
 
     def get_cursos(self, kw=None, filter=None):
         try:
-            if filter is not None:
+            if filter is None or kw is None:
                 #   devolveria todo
                 cursor = self.db_cursos.find()
 
@@ -316,7 +316,7 @@ class DbQueries:
 
     def get_cursos_count(self, kw=None, filter=None):
         try:
-            if filter is not None:
+            if filter is None or kw is None:
                 #   devolveria todo
                 cursor = self.db_cursos.find().count()
 
