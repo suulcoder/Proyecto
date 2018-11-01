@@ -30,3 +30,11 @@ class SignInForm(Form):
 
 class Contacto(Form):
     email = EmailField('Email', [validators.DataRequired(message='Campo Requerido)')])
+    nombre = StringField('Nombres')
+    mensaje = StringField('Comentario', [validators.DataRequired(message='Campo Requerido')])
+
+class CrearCurso(Form):
+    submit = SubmitField('CREAR CURSO')
+
+class InscribirseaCurso(Form)
+    submit = SubmitField('BUSCAR CURSOS')
