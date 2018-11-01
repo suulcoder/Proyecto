@@ -26,6 +26,7 @@ coleccion = db.Usuarios
 database = DbQueries(db)
 app = Flask(__name__)#Iniciamos Flask
 app.config.from_object(DevelopmentConfig)
+user = ''
 
 @app.route('/', methods=['GET','POST'])#Decorador para rutas con estos metodos para los formularios
 def index():#Index de URLS
@@ -33,49 +34,62 @@ def index():#Index de URLS
 	formlogin = forms.LoginForm(request.form)
 	userdb = {}
 	if request.method == 'POST' and formlogin.submit1.data and formlogin.validate():
-		userdb = database.get_users('email',formulario.email.data)#Me serviria que fuera un Cursor
+		userdb = coleccion.find({'email':formlogin.email.data})#Me serviria que fuera un Cursor
+		lista = []
 		acceso = False
 		try:
-			password = userdb['clave']
-			if password == formulario.clave.data:
-				acceso = True
-			else:
-				flash('La contraseña no coincide con el Email')
-		except Exception as e:
-			flash('Ingrese un nombre de Usuario existente')
+			for ir in userdb:
+				lista.append(ir['email'])
+				lista.append(ir['clave'])
+				if lista[1] == formlogin.clave.data:
+					acceso = True
+		except:
+			flash('La contraseña no coincide con el Email')		
+		try:
+			lista[0]
+		except:
+			flash('Este email no ha sido registrado')	
 		if acceso == True:
-			return redirect('user')
+			i = lista[0]
+			return redirect('user/'+i)
 	if request.method == 'POST' and formulario.submit2.data and formulario.validate():
-		userdb = database.get_users('email',formulario.email.data).count()#Que cuente la cantidad que cumpla con el parametro
-		if userdb == 0:
-			flash('Este email ya fue registrado')
-		else:
+		userdb = coleccion.find({'email':formulario.email.data})#Que cuente la cantidad que cumpla con el parametro
+		lista = []
+		acceso = False
+		try:
+			for ir in userdb:
+				lista.append(ir['email'])
+				flash('Este email ya esta registrado')
+		except:
+			acceso = True
+		if len(lista) == 0:
+			acceso = True
+		if acceso == True:
 			if formulario.tipo.data == 'A':
 				user = Alumno(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.email.data,formulario.clave.data,formulario.tipo.data)
 			elif formulario.tipo.data == 'M':
 				user = Maestro(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.email.data,formulario.clave.data,formulario.tipo.data)
 			flash('Gracias por Registrarte')
-			return redirect('user')
+			i = frmulario.email.data
+			return redirect('user/'+i)
 	return render_template('Home.html', form=formulario, formLogin=formlogin)#Llamamos nuestro diseño
 
-@app.route('/user')
-def user():#Index de URL
-	return render_template('user.html')	
 
-@app.route('/cookie')
-def cookie():
-	response = make_response( render_template('cookie.html'))
-	response.set.cookie('custome_cookie', '')
-
-@app.route('/ajax-login', methods= ['POST'])
-def ajax_login():
-	print(request.form)
-	username = request.form['username']
-	response = {'status' : 200, 'username': username, 'id': 1}
-	return json.dumps(response)
+@app.route('/user/<usuario>')
+def user(usuario):#Index de URL
+	datos = coleccion.find({'email':usuario})
+	lista = []
+	for i in datos:
+		lista.append(i['username'])
+		lista.append(i['nombres'])
+		lista.append(i['apellidos'])
+		lista.append(i['email'])
+		lista.append(i['tipo'])
+		lista.append(i['CursosInscritos'])
+	return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5])	
 
 @app.errorhandler(404)#Programamos defensivamente
-def page_not_found():
+def page_not_found(e):
 	return render_template('error.html')
 
 
