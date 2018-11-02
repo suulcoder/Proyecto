@@ -1,4 +1,4 @@
-<!--Usuario loggeado-->
+<!--Maestro loggeado-->
 {% extends "barra.html" %}
 {% block content %}
 
@@ -10,7 +10,7 @@
 			  <img class="card-img-top" src="../static/img/pen.jpg" alt="Card image cap">
 			  <div class="card-body">
 			    <h5 class="card-title">{{ nombre }}</h5>
-			    <p class="card-text">{{ apellido }}</p>
+			    <p class="card-text">{{ apellidos }}</p>
 			  </div>
 			  <ul class="list-group list-group-flush">
 			    <li class="list-group-item">correo : {{ email }}</li>
@@ -25,7 +25,7 @@
 		</div>
 		
 	</div>
-</div>
+</div
 <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
 	{% from "_formhelpers.html" import render_field %}
     <form = method="post" id="login-form">
@@ -35,15 +35,32 @@
     	</div>
     </form>
 </p></h5>
+<h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
+	{% from "_formhelpers.html" import render_field %}
+    <form = method="post" id="login-form">
+    	<div class="form-group">
+    		{{ render_field(crear.palabra) }}
+    		{{ render_field(crear.submit) }}
+    	</div>
+    </form>
+</p></h5>
 <div class="container" style="padding-top: 20px;">
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
 			  <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">Cursos</p></h5>
 			  <div class="card-body">
-			    <h5 class="card-title">Mis cursos asignados:</h5>
+			    <h5 class="card-title">Cursos Administrados:</h5>
  				<ul class="list-group list-group-flush">
 				    {% for item in CursosInscritos %}
+				    	<li>{{ item}}</li>
+				    {% endfor %}	
+			  	</ul>			    	
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">Mis Cursos:</h5>
+ 				<ul class="list-group list-group-flush">
+				    {% for item in CursosAdministrados %}
 				    	<li>{{ item}}</li>
 				    {% endfor %}	
 			  	</ul>			    	
@@ -52,6 +69,7 @@
 		</div>
 	</div>
 </div>
+
 
 {% endblock %}
 
