@@ -9,11 +9,7 @@ categorias = []
 
 class User:
 
-<<<<<<< HEAD
-    def __init__(self, username, nombres, apellidos, email, clave, tipo):
-=======
     def __init__(self, username, clave, nombre, apellidos, email, tipo):
->>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
         self.username = username
         self.nombre = nombres
         self.apellidos = apellidos
@@ -26,12 +22,10 @@ class User:
         #   Cursos
         self.CursosInscritos = []
         self.CursosAdministrados = []
-<<<<<<< HEAD
-=======
+
         #   antes de instanciar al usuario se verifica si ya esta en db
         #   entonces al instanciar lo agregamos a db
         self.__insert()
->>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
 
     #   metodos para db / mongo
 
@@ -49,9 +43,6 @@ class User:
         except Exception as e:
             #   mejorar exceptions
             print(e)
-<<<<<<< HEAD
-  
-=======
 
     def __insert(self):
         #   metodos privados
@@ -67,7 +58,6 @@ class User:
         except Exception as e:
             print(e)
 
->>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
     def _login(self):
         if self.state != 'logged in':
             self.state = 'logged in'
@@ -169,13 +159,8 @@ class Maestro(User):
 
 class Alumno(User):
 
-<<<<<<< HEAD
-    def __init__(self, username, nombres, apellidos, email, clave,tipo):
-        User.__init__(self, username, nombres, apellidos, email, clave,tipo)
-=======
     def __init__(self, username, nombres, apellidos, email, clave, tipo):
         User.__init__(self, username, nombres, apellidos, email, clave, tipo)
->>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
         self.id_curso = int
         diccionario = {}
        	diccionario['username']=	self.username
