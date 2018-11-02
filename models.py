@@ -9,9 +9,9 @@ categorias = []
 
 class User:
 
-    def __init__(self, username, clave, nombre, apellidos, email, tipo):
+    def __init__(self, username, nombres, apellidos, email, clave, tipo):
         self.username = username
-        self.nombre = nombre
+        self.nombre = nombres
         self.apellidos = apellidos
         self.email = email
         self.tipo = tipo
@@ -22,9 +22,6 @@ class User:
         #   Cursos
         self.CursosInscritos = []
         self.CursosAdministrados = []
-        #   antes de instanciar al usuario se verifica si ya esta en db
-        #   entonces al instanciar lo agregamos a db
-        self.__insert()
 
     #   metodos para db / mongo
 
@@ -37,26 +34,12 @@ class User:
     def __generate_id(self):
         #   metodos privados
         try:
-            self.id += db_users.find().count()
+            self.id = db_users.find().count() +1
             #   de momento solo cuenta usuarios y se agrega. ese
         except Exception as e:
             #   mejorar exceptions
             print(e)
-
-    def __insert(self):
-        #   metodos privados
-        try:
-            if self.id == 1:
-                self.__generate_id()
-                db_users.insert(dict(_id=self.id, username=self.username, Tipo=self.tipo, nombres=self.nombres, apellidos=self.apellidos, email=self.email,
-                                     clave=self.clave, CursosInscritos=self.CursosInscritos, CursosAdministrados=self.CursosAdministrados))
-
-            print("New User:")
-            self.present()
-            self._login()
-        except Exception as e:
-            print(e)
-
+  
     def _login(self):
         if self.state != 'logged in':
             self.state = 'logged in'
@@ -111,8 +94,27 @@ class Maestro(User):
         User.__init__(self, username, nombres, apellidos, email, clave, tipo)
         self.CursosAdministrados = []
         self.CursosInscritos = []
-        #   antes de incertar el usuario a la base de datos se verifica si ya esta.
-        # coleccion.insert(diccionario)
+        diccionario = {}
+       	diccionario['username']=	self.username
+       	diccionario['tipo'] = self.tipo
+       	diccionario['nombres'] = self.nombre
+       	diccionario['apellidos'] = self.apellidos
+       	diccionario['email'] = self.email
+       	diccionario['clave'] = self.clave
+       	diccionario['CursosInscritos'] = self.CursosInscritos
+       	diccionario['CursosAdministrados'] = self.CursosAdministrados
+        db_users.insert(diccionario)
+
+    @classmethod
+    def CrearCruso(nombre, departamento, maestro):
+        datos = db_users.find({'email':usuario})
+        lista = []
+        for i in datos:
+            lista.append(i['CursosAdministrados'])
+        for i in lista:
+            i.append(nombre)
+        db_users.update({'email':maestro},{'CursosAdministrados':lista[0]},{upsert: True})
+        curso = Curso(nombre,departamento,maestro)
 
     def modificar_curso(self, curso=None):
         #   en lugar de usar overloading utilizamos parametros con valores default
@@ -149,10 +151,18 @@ class Maestro(User):
 
 class Alumno(User):
 
-    def __init__(self, username, nombres, apellidos, email, clave, tipo):
-        User.__init__(self, username, nombres, apellidos, email, clave, tipo)
+    def __init__(self, username, nombres, apellidos, email, clave,tipo):
+        User.__init__(self, username, nombres, apellidos, email, clave,tipo)
         self.id_curso = int
-
+        diccionario = {}
+       	diccionario['username']=	self.username
+       	diccionario['tipo'] = self.tipo
+       	diccionario['nombres'] = self.nombre
+       	diccionario['apellidos'] = self.apellidos
+       	diccionario['email'] = self.email
+       	diccionario['clave'] = self.clave
+       	diccionario['CursosInscritos'] = self.CursosInscritos
+       	db_users.insert(diccionario)
 
 class Curso:
 
@@ -161,26 +171,21 @@ class Curso:
         self.departamento = departamento
         self.autor = Maestro.getNombres()
         self.lecciones = []
-        self.c_id = 1
-        self.__insert()
-
-    def __insert(self):
-        #   metodos privados
-        try:
-            if self.id == 1:
-                self.__generate_id()
-                db_users.insert(dict(_id=self.c_id, nombre=self.nombre, departamento=self.departamento, autor=self.autor, lecciones=self.lecciones))
-
-            print("Nuevo curso:")
-
-        except Exception as e:
-            print(e)
+        self.c_id = db_cursos.find().count()+1
+        diccionario = {}
+        diccionario['nombre'] = self.nombre
+        diccionario['departamento'] = self.departamento
+        diccionario['autor'] = self.autor
+        diccionario['lecciones'] = self.lecciones
+        diccionario['id_curso'] = self.c_id
+        db_cursos.insert(diccionario)
+        return(self.c_id)
 
     def __generate_id(self):
         #   metodos privados
         try:
             self.c_id += db_cursos.find().count()
-            #   de momento solo cuenta resultados
+            #   de momento solo cuenta usuarios y se agrega. ese
         except Exception as e:
             #   mejorar exceptions
             print(e)
@@ -188,7 +193,7 @@ class Curso:
     def nueva_leccion(self, titulo, resumen, enlaces):
         Lec = Leccion(titulo, resumen, enlaces, self.nombre, self.departamento)
         self.lecciones.append(Lec)
-        # self.update_db()
+        self.update_db()
 
     def update_db(self):
         try:
@@ -196,15 +201,6 @@ class Curso:
             # db_cursos.insert('_id': self.c_id)
         except Exception as e:
             raise e
-
-    def get_nombre(self):
-        return self.nombre
-
-    def get_departamento(self):
-        return self.departamento
-
-    def get_lecciones(self):
-        return self.lecciones
 
 
 class Leccion:
@@ -233,27 +229,15 @@ class Leccion:
 
 
 class DbQueries:
-    #   esta clase toma un objeto de cliente de mongo y se encarga de hacer
-    #   todos los cambios de manera mas directa.
-    #   Toda la documentacion de como manejar las colecciones/db puede ser encontrada aqui:
-    #
-    #   https://api.mongodb.com/python/current/api/pymongo/collection.html
 
     def __init__(self, db):
         self.db = db
         self.db_users = db.users
         self.db_cursos = db.cursos
 
-    def menu(self):
-        print('todavia no funciona como consola')
-        print('1. get / get_counts ')
-        print('2. set / update')
-        print('3. Insert')
-        print('4. Delete\n')
-
     def get_users(self, kw=None, filter=None):
         try:
-            if filter is None or kw is None:
+            if filter is not None:
                 #   devolveria todo
                 cursor = self.db_users.find()
 
@@ -272,30 +256,9 @@ class DbQueries:
         except Exception as e:
             print(e)
 
-    def get_users_count(self, kw=None, filter=None):
-        try:
-            if filter is None or kw is None:
-                #   devolveria todo
-                cursor = self.db_users.find().count()
-
-            else:
-                if filter == 'nombre':
-                    cursor = self.db_users.find({'nombre': kw}).count()
-
-                elif filter == 'id':
-                    cursor = self.db_users.find({'_id': kw}).count()
-
-                elif filter == 'email':
-                    cursor = self.db_users.find({'email': kw}).count()
-
-            return cursor
-
-        except Exception as e:
-            print(e)
-
     def get_cursos(self, kw=None, filter=None):
         try:
-            if filter is None or kw is None:
+            if filter is not None:
                 #   devolveria todo
                 cursor = self.db_cursos.find()
 
@@ -310,28 +273,6 @@ class DbQueries:
                     cursor = self.db_cursos.find({'maestro': kw})
 
             return cursor
-
-        except Exception as e:
-            print(e)
-
-    def get_cursos_count(self, kw=None, filter=None):
-        try:
-            if filter is None or kw is None:
-                #   devolveria todo
-                cursor = self.db_cursos.find().count()
-
-            else:
-                if filter == 'nombre':
-                    cursor = self.db_cursos.find({'nombre': kw}).count()
-
-                elif filter == 'id':
-                    cursor = self.db_cursos.find({'_id': kw}).count()
-
-                elif filter == 'maestro':
-                    cursor = self.db_cursos.find({'maestro': kw}).count()
-
-            return cursor
-
         except Exception as e:
             print(e)
 
@@ -343,38 +284,17 @@ class DbQueries:
 
     def delete_curso(self, curso):
         try:
-            self.db_cursos.delete_one({'_id': curso.getId(), 'nombre': curso.get_nombre(), 'departamento': curso.get_departamento()})
-        except Exception as e:
-            raise e
-
-    def update_user_field(self, _filter, filter_value, field, new_value):
-        #   actualizar un solo detalle de un usuario
-        try:
-            #   ({filter: filter_value}, {'$set': {field: new_value}})
-            #   ({campos/filtros para encontrar al usuario} , {'$set': {campo: valor_nuevo}})
-            #
-            #   ejemplo:
-            #   update_user_field('email', 'ejemplo@dominio.com', 'clave', 'nueva_clave')
-            #   busca a usuario por email y actualiza su clave
-            self.db_users.find_one_and_update({_filter: filter_value}, {'$set': {field: new_value}})
+            self.db_cursos.delete_one({'_id': curso.getId(), 'nombre': curso.getNombres()})
         except Exception as e:
             raise e
 
     def _help(self):
         print('''
             \nComandos:\n\n
-            keyword == termino a buscar, i.e. un nombre o un email. "andrea" / 'andrea@dominio.com'
-            filter == seccion a buscar, i.e. 'email' / 'nombre' / '_id'
-            get_users(keyword, filter) // devuelve cursor 
-            get_users_count // devuelve int
-            get_cursos // devuelve cursor
-            get_cursos_count // devuelve int
-
-            update_user(field, new_value)
-            update_curso(field, new_value)
-                
+            get_users // devuelve usuarios
+            get_cursos // devuelve cursos
+                Ambos gets tienen filteros de nombre/_id/
+            maestro o email para curso o email respectivamente
             delete_user(User) // toma un objeto User y con sus atributos lo elimina de db
             delete_cursos(Curso) // toma un objeto Curso y con sus atributos lo elimina de db
-            \n
             ''')
-        self.menu()
