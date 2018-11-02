@@ -9,9 +9,13 @@ categorias = []
 
 class User:
 
+<<<<<<< HEAD
+    def __init__(self, username, nombres, apellidos, email, clave, tipo):
+=======
     def __init__(self, username, clave, nombre, apellidos, email, tipo):
+>>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
         self.username = username
-        self.nombre = nombre
+        self.nombre = nombres
         self.apellidos = apellidos
         self.email = email
         self.tipo = tipo
@@ -22,9 +26,12 @@ class User:
         #   Cursos
         self.CursosInscritos = []
         self.CursosAdministrados = []
+<<<<<<< HEAD
+=======
         #   antes de instanciar al usuario se verifica si ya esta en db
         #   entonces al instanciar lo agregamos a db
         self.__insert()
+>>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
 
     #   metodos para db / mongo
 
@@ -37,11 +44,14 @@ class User:
     def __generate_id(self):
         #   metodos privados
         try:
-            self.id += db_users.find().count()
+            self.id = db_users.find().count() +1
             #   de momento solo cuenta usuarios y se agrega. ese
         except Exception as e:
             #   mejorar exceptions
             print(e)
+<<<<<<< HEAD
+  
+=======
 
     def __insert(self):
         #   metodos privados
@@ -57,6 +67,7 @@ class User:
         except Exception as e:
             print(e)
 
+>>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
     def _login(self):
         if self.state != 'logged in':
             self.state = 'logged in'
@@ -111,8 +122,17 @@ class Maestro(User):
         User.__init__(self, username, nombres, apellidos, email, clave, tipo)
         self.CursosAdministrados = []
         self.CursosInscritos = []
-        #   antes de incertar el usuario a la base de datos se verifica si ya esta.
-        # coleccion.insert(diccionario)
+        diccionario = {}
+       	diccionario['username']=	self.username
+       	diccionario['tipo'] = self.tipo
+       	diccionario['nombres'] = self.nombre
+       	diccionario['apellidos'] = self.apellidos
+       	diccionario['email'] = self.email
+       	diccionario['clave'] = self.clave
+       	diccionario['CursosInscritos'] = self.CursosInscritos
+       	diccionario['CursosAdministrados'] = self.CursosAdministrados
+       	print(diccionario)
+       	db_users.insert(diccionario)
 
     def modificar_curso(self, curso=None):
         #   en lugar de usar overloading utilizamos parametros con valores default
@@ -149,10 +169,23 @@ class Maestro(User):
 
 class Alumno(User):
 
+<<<<<<< HEAD
+    def __init__(self, username, nombres, apellidos, email, clave,tipo):
+        User.__init__(self, username, nombres, apellidos, email, clave,tipo)
+=======
     def __init__(self, username, nombres, apellidos, email, clave, tipo):
         User.__init__(self, username, nombres, apellidos, email, clave, tipo)
+>>>>>>> 8098484161adbf948b19ea125f2a7e69002553a7
         self.id_curso = int
-
+        diccionario = {}
+       	diccionario['username']=	self.username
+       	diccionario['tipo'] = self.tipo
+       	diccionario['nombres'] = self.nombre
+       	diccionario['apellidos'] = self.apellidos
+       	diccionario['email'] = self.email
+       	diccionario['clave'] = self.clave
+       	diccionario['CursosInscritos'] = self.CursosInscritos
+       	db_users.insert(diccionario)
 
 class Curso:
 

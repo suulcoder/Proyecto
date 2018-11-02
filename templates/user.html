@@ -9,13 +9,13 @@
 			<div class="card" style="width: 18rem;">
 			  <img class="card-img-top" src="../static/img/pen.jpg" alt="Card image cap">
 			  <div class="card-body">
-			    <h5 class="card-title">Aquí va el nombre de usuario Saul</h5>
-			    <p class="card-text">Aqui puede ir algo base si no se lo quitas</p>
+			    <h5 class="card-title">{{ nombre }}</h5>
+			    <p class="card-text">{{ apellido }}</p>
 			  </div>
 			  <ul class="list-group list-group-flush">
-			    <li class="list-group-item">correo : correo</li>
-			    <li class="list-group-item"> Usuario : usuario</li>
-			    <li class="list-group-item"> Cursos : Cursos</li> <!--Se le pueden agreagar mas li para poder crear nuevos campos ... -->
+			    <li class="list-group-item">correo : {{ email }}</li>
+			    <li class="list-group-item"> Usuario : {{ username }}</li>
+			    <li class="list-group-item"> Tipo de Usuario : {{ tipo }}</li> <!--Se le pueden agreagar mas li para poder crear nuevos campos ... -->
 			  </ul>
 			  <div class="card-body">
 			    <a href="#" class="card-link">Editar perfil</a>
@@ -35,10 +35,9 @@
 			  <div class="card-body">
 			    <h5 class="card-title">Mis cursos asignados:</h5>
  				<ul class="list-group list-group-flush">
-				    <li class="list-group-item">Curso1 </li>
-				    <li class="list-group-item"> Curso 2</li>
-				    <li class="list-group-item"> Curso 3</li> 
-				    <li class="list-group-item"> Curso a la n</li>
+				    {% for item in CursosInscritos %}
+				    	<li>{{ item}}</li>
+				    {% endfor %}	
 			  	</ul>			    	
 			  </div>
 			</div>
