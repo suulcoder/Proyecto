@@ -36,5 +36,5 @@ class Contacto(Form):
 class CrearCurso(Form):
     submit = SubmitField('CREAR CURSO')
 
-class InscribirseaCurso(Form)
+class InscribirseaCurso(Form):
     submit = SubmitField('BUSCAR CURSOS')
