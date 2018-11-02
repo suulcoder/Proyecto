@@ -1,4 +1,4 @@
-{% extends 'barra.html' %}
+{% extends 'barra.html'  %}
 {% block content %}
  <div class="view" style="background-image: url('../static/img/inicial.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
 
@@ -11,28 +11,30 @@
             <h2 class="text-center">La nueva forma de encontrar información</h2>
             <h1 class="text-center">Valiosa</h1>  
             </div>
-          
             </div>
+
         <div class="col-6">
           <div class="card" style="padding:20px;background-color: rgb(59,104,140)">
           <h5 class="card-title"><div class="text-center">Ingresa aquí:</div> </h5>
+           {% from "_formhelpers.html" import render_field %}
            <div class="panel panel-default">
-            {% from "_formhelpers.html" import render_field %}
-            <form = method="post" id="login-form">
-            <form>
-              {{ render_field(formLogin.email) }}
-              {{ render_field(formLogin.clave) }}
-              {{ render_field(formLogin.submit1) }}
-              </form>
+            <div class="form-group">
+              <form = method="post" id="login-form">
+             
+                {{ render_field(formLogin.email,  type="email", class="form-control", id="exampleInputEmail1",  placeholder="Ingresa tu email") }}
+                {{ render_field(formLogin.clave, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña")}}
+                {{ render_field(formLogin.submit1, type="submit", class="btn btn-primary") }}
+               </form>
             </div>
-        </div> 
-    </div>   
-    </div>
+          </div> 
+        </div>   
+       </div>
+      </div>
     </div>      
 </div>
  <div class="view" style="background-image: url('../static/img/pen.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
- <div class="container-fluid" style="padding-top:100px;padding-bottom: 100px" id="Sg">
-     <div class="row align-items-center">
+ <div class="container-fluid" style="padding-top:100px;padding-bottom: 100px; padding-left: 80px" id="Sg">
+     <div class="row align-items-center"
         <div class="col-6">
             <div class="card bg-danger" style="padding:20px;">
                 <h5 class="card-title"><div class="text-center">Registrate aquí:</div></h5>
@@ -40,22 +42,24 @@
             {% from "_formhelpers.html" import render_field %}
             <form = method="post" id="signin-form">
             <form>
-              {{ render_field(form.nombres) }}
-              {{ render_field(form.apellidos) }}
-              {{ render_field(form.username) }}
-              {{ render_field(form.email) }}
-              {{ render_field(form.clave) }}
-              {{ render_field(form.confirm) }}
-              {% for subfield in form.tipo %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-              {% endfor %}
-              {{ render_field(form.accept) }}
-              {{ render_field(form.submit2) }}
-              </form>
+              <div class="form-group">
+                {{ render_field(form.nombres, type="text", class="form-control", placeholder="Nombres") }}
+                {{ render_field(form.apellidos, type="text", class="form-control", placeholder="Apellidos") }}
               </div>
+                {{ render_field(form.username, type="text", class="form-control", placeholder="Nombre de usuario")  }}
+                {{ render_field(form.email, type="email", class="form-control", id="exampleInputEmail1",  placeholder="Ingresa tu email") }}
+                {{ render_field(form.clave, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+                {{ render_field(form.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+                {% for subfield in form.tipo %}
+                  <tr>
+                      <td>{{ subfield}}</td>
+                      <td>{{ subfield.label }}</td>
+                  </tr>
+                {% endfor %}
+                {{ render_field(form.accept, type="checkbox") }}
+                {{ render_field(form.submit2, type="submit", class="btn btn-success ") }}
+              </form>
+            </div>
         </div> 
         </div> 
      </div> 
@@ -101,6 +105,13 @@
 </form>            
                      
         </div>
+    </div>
+</div>
+
+<div class="jumbotron jumbotron-fluid bg-danger" style="padding: 5px">
+  <div class="text-center">
+      <img src="../static/img/ods4.png" alt="..." style="width:110px; height: 110px">
+      <img src="../static/img/onu.png"  alt="..." style="width:500px; height: 110px">
     </div>
 </div>
 <!-- ***********************fINALIZA CONTENIDO *******************************-->     

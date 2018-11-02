@@ -1,0 +1,47 @@
+<!--Pagina de inicio del maestro -->
+{% extends "barra.html" %}
+{% block content  %>
+	<!--+++++++++++++++++++PERFIL DEL MAESTRO++++++++++++++++++++++++-->
+	<div class="container" style="padding: 30px; justify-content: center;">
+		<div class="row align-items-center">
+			<div class="col-4"></div> 
+			<div class="col-8">	
+				<div class="card" style="width: 18rem;">
+				  <img class="card-img-top" src="../static/img/pen.jpg" alt="Card image cap">
+				  <div class="card-body">
+				    <h5 class="card-title">Aquí va el nombre de usuario Saul</h5>
+				    <p class="card-text">Aqui puede ir algo base si no se lo quitas</p>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item">correo : correo</li>
+				    <li class="list-group-item"> Usuario : usuario</li>
+				    <li class="list-group-item"> Cursos : Cursos</li> <!--Se le pueden agreagar mas li para poder crear nuevos campos ... -->
+				  </ul>
+				  <div class="card-body">
+				    <a href="#" class="card-link">Editar perfil</a>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--+++++++++++++++++++PERFIL DEL MAESTRO++++++++++++++++++++++++-->
+	<!--+++++++++++++++++++CURSOS CREADOS POR EL MAESRO++++++++++++++++++++++++-->
+	<div class="container" style="padding-top: 20px;">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+				  <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">Cursos</p></h5>
+				  <div class="card-body">
+				    <h5 class="card-title">Crusos creados:</h5>
+	 				<ul class="list-group list-group-flush">
+					    <li class="list-group-item">Curso1 </li>
+					    <li class="list-group-item"> Curso 2</li>
+					    <li class="list-group-item"> Curso 3</li> 
+					    <li class="list-group-item"> Curso a la n</li>
+				  	</ul>			    	
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>	
+{% endblock  %>
