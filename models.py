@@ -105,16 +105,33 @@ class Maestro(User):
        	diccionario['CursosAdministrados'] = self.CursosAdministrados
         db_users.insert(diccionario)
 
-    @classmethod
-    def CrearCruso(nombre, departamento, maestro):
-        datos = db_users.find({'email':usuario})
+    @staticmethod
+    def CrearCurso(nombre, departamento, maestro):
+        datos = db_users.find({'email':maestro})
         lista = []
         for i in datos:
+            lista.append(i['username'])
+            lista.append(i['tipo'])
+            lista.append(i['nombres'])
+            lista.append(i['apellidos'])
+            lista.append(i['email'])
+            lista.append(i['clave'])
+            lista.append(i['CursosInscritos'])
             lista.append(i['CursosAdministrados'])
-        for i in lista:
-            i.append(nombre)
-        db_users.update({'email':maestro},{'CursosAdministrados':lista[0]},{upsert: True})
         curso = Curso(nombre,departamento,maestro)
+        ingresar = curso.getId()
+        lista[7].append(ingresar)
+        diccionario = {}
+        diccionario['username']= lista[0]
+        diccionario['tipo'] = lista[1]
+        diccionario['nombres'] = lista[2]
+        diccionario['apellidos'] = lista[3]
+        diccionario['email'] = lista[4]
+        diccionario['clave'] = lista[5]
+        diccionario['CursosInscritos'] = lista[6]
+        diccionario['CursosAdministrados'] = lista[7]
+        db_users.update({'email':maestro},diccionario)
+        
 
     def modificar_curso(self, curso=None):
         #   en lugar de usar overloading utilizamos parametros con valores default
@@ -167,9 +184,10 @@ class Alumno(User):
 class Curso:
 
     def __init__(self, nombre, departamento, User):
+        nombre = nombre.replace(' ','_')
         self.nombre = nombre
         self.departamento = departamento
-        self.autor = Maestro.getNombres()
+        self.autor = User
         self.lecciones = []
         self.c_id = db_cursos.find().count()+1
         diccionario = {}
@@ -179,6 +197,8 @@ class Curso:
         diccionario['lecciones'] = self.lecciones
         diccionario['id_curso'] = self.c_id
         db_cursos.insert(diccionario)
+
+    def getId(self):
         return(self.c_id)
 
     def __generate_id(self):
@@ -205,16 +225,11 @@ class Curso:
 
 class Leccion:
 
-    def __init__(self, titulo, resumen, enlaces, curso=None, departamento=None):
+    def __init__(self, titulo, resumen):
         self.titulo = titulo
         self.resumen = resumen
         self.contenido = ''
-        self.ejemplos = []
-        self.curso = curso
-        self.orden = int
-        #   posicion en listado de lecciones del curso
-        #   podria ser un diccionario si es necesario.
-        #   {int: leccion}
+        
 
     def editar_cont(self, nuevo):
         if nuevo != self.contenido:

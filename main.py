@@ -83,7 +83,6 @@ def index():#Index de URLS
 
 @app.route('/user/<usuario>', methods=['GET','POST'])
 def user(usuario):#Index de URL
-	buscar = forms.InscribirseaCurso(request.form)
 	datos = coleccion.find({'email':usuario})
 	lista = []
 	for i in datos:
@@ -95,13 +94,16 @@ def user(usuario):#Index de URL
 		lista.append(i['CursosInscritos'])
 	if lista[4]=='M':
 		return redirect('maestro/'+usuario)
-	if request.method == 'POST' and buscar.submit.data and buscar.validate():
-		return redirect('buscar/'+buscar.palabra.data)
-	return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], buscar=buscar)	
+	if request.method == 'POST':
+		if request.form['submit_button'] == '+':
+			return redirect('buscar/'+buscar.palabra.data+'/'+usuario)
+		else:
+			pass
+	elif request.method == 'GET':
+		return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5])	
 
 @app.route('/maestro/<usuario>', methods=['GET','POST'])
 def maestro(usuario):#Index de URL
-	buscar = forms.InscribirseaCurso(request.form)
 	crear = forms.CrearCurso(request.form)
 	datos = coleccion.find({'email':usuario})
 	lista = []
@@ -113,23 +115,111 @@ def maestro(usuario):#Index de URL
 		lista.append(i['tipo'])
 		lista.append(i['CursosInscritos'])
 		lista.append(i['CursosAdministrados'])
-	if request.method == 'POST' and buscar.submit.data and buscar.validate():
-		return redirect('buscar/'+buscar.palabra.data)
-	if request.method == 'POST' and crear.submit.data and crear.validate():
-		return redirect('editcurso/'+ crear.palabra.data)
-	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=lista[6],buscar=buscar, crear=crear)
+	listcursos = []
+	for i in lista[6]:
+		cursodb = db.Cursos.find({'id_curso':i})
+		for j in cursodb:
+			listcursos.append(j['nombre'])
+	if request.method == 'POST':
+		if request.form['submit_button'] == '+':
+			return redirect('buscar/'+usuario)
+		elif request.form['submit_button'] == 'Crear':
+			return redirect('nuevocurso/'+crear.palabra.data+'/'+usuario)
+		for t in listcursos:
+			if request.form['submit_button'] == t:
+				return redirect('curso/'+t+'/'+usuario)
+	elif request.method == 'GET':
+		return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear)
+	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear)
+		
+@app.route('/buscar/<usuario>', methods=['GET', 'POST'])
+def buscar(usuario):
+	cursos = db.Cursos.find()
+	lista_cursos = []
+	for j in cursos:
+		lista_cursos.append(j['nombre'])
+	for t in lista_cursos:
+		if request.method == 'POST':
+			if request.form['submit_button'] == t:
+				return redirect('curso/'+t+'/'+usuario)
+			elif request.form == 'GET':
+				return render_template('menu-cursos.html', lista=lista_cursos)
+	return render_template('menu-cursos.html', lista=lista_cursos)
 
-@app.route('/buscar/<curso>')
-def buscar(curso):
-	return ('todosloscursos.html')
+@app.route('/curso/<nombre>/editleccion/<numero>/<usuario>')
+def editleccion(nombre,numero,usuario):#
+	return('ok')
 
-@app.route('/curso/<nombre>')
-def curso(nombre):
-	return ('curso.html')
+@app.route('/curso/<nombre>/<usuario>', methods=['GET', 'POST'])
+def curso(nombre,usuario):
+	datos = db.Cursos.find({'nombre':nombre})
+	lista = []
+	for i in datos:
+		lista.append(i['nombre'])
+		lista.append(i['lecciones'])
+		lista.append(i['autor'])	
+	if lista[2] == usuario:
+		if request.method == 'POST':
+			if request.form['submit_button'] == 'editar curso':
+				return redirect('editcurso/'+nombre+'/'+usuario)
+		elif request.method == 'GET':
+			return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+	return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
 
-@app.route('/editcurso/<nombre>')
-def editcurso(nombre):
-	return ('curso.html')
+@app.route('/nuevocurso/<nombre>/<usuario>', methods=['GET','POST'])
+def nuevocurso(nombre,usuario):
+	name = nombre.replace(' ','_')
+	datos = coleccion.find({'email':usuario})
+	lista = []
+	for i in datos:
+		lista.append(i['username'])
+		lista.append(i['tipo'])
+	if lista[1]=='M':
+		cursos = db.Cursos.find({'nombre':name})
+		lista_cursos = []
+		for j in cursos:
+			lista_cursos.append(j['autor'])
+		if len(lista_cursos)!=0:
+			if lista_cursos[0]==usuario:
+				return redirect('editcurso/'+name+'/'+usuario)
+			else:
+				return redirect('curso/'+name+'/'+usuario)
+		else:
+			formulario = forms.infoCurso(request.form)
+			if request.method == 'POST':
+				if request.form['submit_button'] == 'Crear':
+					Maestro.CrearCurso(name, formulario.departamento.data, usuario)
+					return redirect('curso/'+name+'/'+usuario)
+				elif request.form['submit_button'] == '+':
+					return redirect('curso/'+name+'/editleccion/'+str(len(lista_cursos[1])+1)+'/'+usuario)
+			elif request.method == 'GET':
+				return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[])
+			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista_cursos[1])
+	else:
+		return redirect('curso/'+usuario)
+
+@app.route('/editcurso/<nombre>/<usuario>')
+def editcurso(nombre,usuario):#
+	datos = db.Cursos.find({'nombre':nombre})
+	lista = []
+	for i in datos:
+		lista.append(i['nombre'])
+		lista.append(i['lecciones'])
+		lista.append(i['autor'])
+	if lista[2] == usuario:
+		formulario = forms.infoCurso(request.form)
+		if request.method == 'POST':
+			if request.form['submit_button'] == 'Crear':
+				Curso.actualizar(nombre, formulario.departamento.data, lecciones)
+				return redirect('curso/'+nombre+'/'+usuario)
+			elif request.form['submit_button'] == '+':
+				return redirect('curso/'+nombre+'/editleccion/'+str(len(lista_cursos[1])+1)+'/'+usuario)
+		elif request.method == 'GET':
+			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[])
+		return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1])
+	else:
+		return redirect('curso/'+nombre+'/'+usuario)
+
 
 @app.errorhandler(404)#Programamos defensivamente
 def page_not_found(e):

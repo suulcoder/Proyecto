@@ -4,7 +4,7 @@
 {% extends "barraUsuario.html" %}
 {% block content %}
  <div class="jumbotron jumbotron-fluid">
- 		 <h1 class="display-4">Aqui va el nombre del curso </h1>
+ 		 <h1 class="display-4">{{ nombre }} </h1>
  </div>
 
  <div class="container">
@@ -15,14 +15,13 @@
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
- 					<li class="list-group-item"> Leccion 1 </li>
- 					<li class="list-group-item"> Leccion 2 </li>
- 					<li class="list-group-item"> Leccion 3 </li>
- 					<li class="list-group-item"> Leccion a la n </li>
-
+ 					{% for item in lecciones%}
+ 						{{ item }}
+ 					{% endfor %}
  				</ul>
  			</div>
  		</div>
+ 		<input type="submit" name="submit_button" value="editar curso">
  	</div>
  </div>
 

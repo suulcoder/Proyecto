@@ -35,8 +35,7 @@ class Contacto(Form):
 
 class CrearCurso(Form):
 	palabra = StringField('Nombre del Curso')
-	submit = SubmitField('CREAR CURSO')
+	submit1 = SubmitField('CREAR CURSO')
 
-class InscribirseaCurso(Form):
-	palabra = StringField('Palabra Clave')
-	submit = SubmitField('BUSCAR CURSOS')	
+class infoCurso(Form):
+	departamento = StringField('Departamento del curso')

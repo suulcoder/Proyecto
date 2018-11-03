@@ -30,8 +30,7 @@
 	{% from "_formhelpers.html" import render_field %}
     <form = method="post" id="login-form">
     	<div class="form-group">
-    		{{ render_field(buscar.palabra) }}
-    		{{ render_field(buscar.submit) }}
+    		<input type="submit" name="submit_button" value="+">
     	</div>
     </form>
 </p></h5>
@@ -45,7 +44,15 @@
  				<ul class="list-group list-group-flush">
 				    {% for item in CursosInscritos %}
 				    	<li>{{ item}}</li>
-				    {% endfor %}	
+				    {% endfor %}
+				    <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
+					{% from "_formhelpers.html" import render_field %}
+				    <form = method="post" id="login-form">
+				    	<div class="form-group">
+				    		<input type="submit" name="submit_button" value="+">
+				    	</div>
+				    </form>
+				</p></h5>
 			  	</ul>			    	
 			  </div>
 			</div>

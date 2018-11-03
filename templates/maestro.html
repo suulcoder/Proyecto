@@ -25,22 +25,13 @@
 		</div>
 		
 	</div>
-</div
-<h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
-	{% from "_formhelpers.html" import render_field %}
-    <form = method="post" id="login-form">
-    	<div class="form-group">
-    		{{ render_field(buscar.palabra) }}
-    		{{ render_field(buscar.submit) }}
-    	</div>
-    </form>
-</p></h5>
+</div>
 <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
 	{% from "_formhelpers.html" import render_field %}
     <form = method="post" id="login-form">
     	<div class="form-group">
     		{{ render_field(crear.palabra) }}
-    		{{ render_field(crear.submit) }}
+    		<input type="submit" name="submit_button" value="Crear">
     	</div>
     </form>
 </p></h5>
@@ -52,17 +43,27 @@
 			  <div class="card-body">
 			    <h5 class="card-title">Cursos Administrados:</h5>
  				<ul class="list-group list-group-flush">
-				    {% for item in CursosInscritos %}
-				    	<li>{{ item}}</li>
-				    {% endfor %}	
+ 					<form = method="post" id="login-form">
+					    {% for item in CursosAdministrados %}
+					    	<input type="submit" name="submit_button" value={{item}}>
+					    {% endfor %}
+					</form>	
 			  	</ul>			    	
 			  </div>
 			  <div class="card-body">
 			    <h5 class="card-title">Mis Cursos:</h5>
  				<ul class="list-group list-group-flush">
-				    {% for item in CursosAdministrados %}
-				    	<li>{{ item}}</li>
-				    {% endfor %}	
+				    {% for item in CursosInscritos %}
+				    	<input type="submit" name="submit_button" value={{item}}>
+				    {% endfor %}
+				    <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
+						{% from "_formhelpers.html" import render_field %}
+					    <form = method="post" id="login-form">
+					    	<div class="form-group">
+					    		<input type="submit" name="submit_button" value="+">
+					    	</div>
+					    </form>
+					</p></h5>
 			  	</ul>			    	
 			  </div>
 			</div>

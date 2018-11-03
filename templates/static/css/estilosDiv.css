@@ -1,0 +1,184 @@
+* {
+    box-sizing: border-box;
+}
+
+
+div.Frase{
+    padding-right: 8px;
+    font-size: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+   
+    
+}
+div.inicio{
+    background: url(img/inicial.jpg) no-repeat;
+    background-size: cover;
+    height: auto;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+/*para agregarle una imgen al div es:
+    backgorund: url(direccion.jpeg) no-repeat center top;
+    dasrle tamaño:
+    backgroiund-size:cover;
+    heigh:100hv */
+div.Login-Box{
+    font-family: sans-serif;
+    width: 100%;
+    height: auto;
+    background:rgba(0,0,25, .5);
+    color: #fff;
+    box-sizing: border-box;
+    padding: 70px 30px;
+    border-radius: 18px;
+}
+div.Login-Box h1{
+    margin: 0;
+    padding: 0 0 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 22px;
+}
+
+
+div.Login-Box label{
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+div.Login-Box input{
+    width: 100%;
+    margin-bottom: 20px;
+        
+}
+div.Login-Box input[type="text"], div.Login-Box input[type="password"], div.Login-Box input[type="correo"]{
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    color: gray;
+    outline: none;
+    height: 80px;
+    font-size: 16px;
+}
+
+div.Login-Box select{
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    color:white
+    outline: none;
+
+}
+
+
+
+div.Login-Box input[type="submit"]{
+    border: none;
+    background: #b80f22;
+    color: white;
+    outline: none;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 18px;
+}
+div.Login-Box a{
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 20px;
+    color:darkgray;
+}
+div.Login-Box a:hover{
+    color:gray;
+}
+div.Login-Box input[type="submit"]:hover{
+    background: #b80f50;
+    transition: all 1s;
+}
+
+.container {
+    margin-top: 60px;
+    display: block;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+
+}
+
+@media only screen and (max-width: 1980px) {
+    .Frase {
+        display: inline-block;
+        min-width: 500px;
+        text-align: center;
+        word-wrap: break-word;
+        height: auto;
+    }
+
+    .Login-Box {
+        display: inline-block;   
+        min-width: 500px;
+        max-width: 700px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .inicio {
+        color: rebeccapurple;
+        padding-left: 10%;
+        padding-right: 10%;
+        text-align:  center;
+
+    }
+    .Frase {
+        display: inline-block;
+        max-width: 100%;
+        text-align: center;
+        word-wrap: break-word;
+        height: auto;
+    }
+
+    .Login-Box {
+        display: inline-block;   
+        min-width: 300px;
+        max-width: 500px;
+    }
+    .container{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .ContactUs {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+
+}
+
+div.Sign{
+    
+    padding: 50px;
+    /*para agregarle una imgen al div es:
+    backgorund: url(direccion.jpeg) no-repeat center top;
+    dasrle tamaño:
+    backgroiund-size:cover;
+    heigh:100hv */
+    background: url(img/portadainicial.jpg) no-repeat center top;
+    background-size: cover;
+    height: auto;
+}
+
+div.AboutUs {
+    width: 100%;
+    background: white;
+    padding:30px;
+}
+
+div.ContactUs{
+    display: block;
+    background: lightgray;
+    padding-top: 50px;
+    padding-bottom: 30px;
+
+}
