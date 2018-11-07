@@ -1,31 +1,43 @@
  {%extends "barraMaestro.html"%}
  {% block content %}
   <div class="jumbotron jumbotron-fluid">
- 	{{ nombre }}
+ 	<h1 class="display-4" style="padding: 25px;"> Nombre del curso:  {{ nombre }} </h1>
  </div>
- {% from "_formhelpers.html" import render_field %}
-<form = method="post" id="login-form">
-	<div class="form-group">
-		{{ render_field(formulario.departamento) }}
+ 	<div class="container">
+ 		<div class="row">
+	 		<div class="col-12">
+			 {% from "_formhelpers.html" import render_field %}
+			<form = method="post" id="login-form">
+				<div class="form-group">
+					{{ render_field(formulario.departamento, type="text", class="form-control", placeholder="Nombre del curso" ) }}
+				</div>
+			</div>
+		</div>
 	</div>
  <div class="container">
  	<div class="row">
- 		<div class="col-12">
- 			<div class="card" style="width: 18rem;">
+ 		<div class="col-12" style="padding: 30px;">
+ 			<div class="card bg-light" style="width: 18rem;">
  				<div class="card-header">
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
  					{% for item in lecciones %}
  					<li class="list-group-item">
- 						<input type="submit" name="submit_button" value={{item}}>
+ 						<input type="submit" class= "btn btn-primary" name="submit_button" value={{item}}>
  						{{ item }}</li>
  					{% endfor %}
  				</ul>
- 				<button type="button" class="submit_button" value="+">+</button> <!--este boton sirve para agregar mas lecciones-->
+ 				<button type="button" class= "btn btn-secondary" value="+">+</button> <!--este boton sirve para agregar mas lecciones-->
  			</div>
  		</div>
  	</div>
  </div>
-<input type="submit" name="submit_button" value="Crear">
+ <div class="container" style="padding: 30px;">
+ 	<div class="row">
+ 		<div class="col">
+			<input type="submit" class= "btn btn-success" name="submit_button" value="Crear">
+		</div>
+	</div>
+</div>
  {%endblock%}

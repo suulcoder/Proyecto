@@ -1,4 +1,4 @@
-<!--Maestro loggeado-->
+	<!--Maestro loggeado-->
 {% extends "barra.html" %}
 {% block content %}
 
@@ -27,11 +27,11 @@
 	</div>
 </div>
 <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
-	{% from "_formhelpers.html" import render_field %}
+	{% from "_formhelpers.html" import render_field %}  <!--formulario para crear un curso nuevo-->
     <form = method="post" id="login-form">
     	<div class="form-group">
-    		{{ render_field(crear.palabra) }}
-    		<input type="submit" name="submit_button" value="Crear">
+    		{{ render_field(crear.palabra, type="text", class="form-control", placeholder="Nombre del curso") }}
+    		<input type="submit" class = "btn btn-success" name="submit_button" value="Crear">
     	</div>
     </form>
 </p></h5>
@@ -45,7 +45,8 @@
  				<ul class="list-group list-group-flush">
  					<form = method="post" id="login-form">
 					    {% for item in CursosAdministrados %}
-					    	<input type="submit" name="submit_button" value={{item}}>
+					    	<input type="submit" class="btn btn-primary  btn-lg btn-block" name="submit_button" value={{item}}>
+					    	<br>
 					    {% endfor %}
 					</form>	
 			  	</ul>			    	
@@ -54,13 +55,13 @@
 			    <h5 class="card-title">Mis Cursos:</h5>
  				<ul class="list-group list-group-flush">
 				    {% for item in CursosInscritos %}
-				    	<input type="submit" name="submit_button" value={{item}}>
+				    	<input type="submit" name="submit_button" value={{item}} > <!--estilo-->
 				    {% endfor %}
 				    <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
 						{% from "_formhelpers.html" import render_field %}
 					    <form = method="post" id="login-form">
 					    	<div class="form-group">
-					    		<input type="submit" name="submit_button" value="+">
+					    		<input type="submit" class="btn btn-light" name="submit_button" value="+">
 					    	</div>
 					    </form>
 					</p></h5>

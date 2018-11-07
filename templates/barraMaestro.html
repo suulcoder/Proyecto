@@ -36,7 +36,7 @@
     <div class="col">
       <nav class="navbar navbar-expand-lg navbar-light " style = "background-color: rgb(59,104,140);color: white;"> <!--se crea un menu de navegacion responsive con color info -->
         <a class="navbar-brand" href="#index.html" style = "color: white">
-          <img src="../static/img/imagen.ico" class="rounded-circle" width="30" height="30" class="d-inline-block align-top">
+          <img src="{{ url_for('static', filename='img/imagen.ico') }}" class="rounded-circle" width="30" height="30" class="d-inline-block align-top">
             Learn4
         </a> <!--se crea un titulo que resalta en el menu de navegacion, en este caso redirecciona a home-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <!--Se crea un div que contiene a los botones los cuales se ocultan al reducir el tamaño de pantalla-->
@@ -67,10 +67,10 @@
 {% block content %}
 {% endblock %}
   <!--+++++++++++++++++++footer++++++++++++++++++++++++-->
-  <div class="jumbotron jumbotron-fluid bg-danger" style="padding: 5px">  <!--se crea una caja que contendra imagenes del footes-->
+  <div class="jumbotron jumbotron-fluid bg-danger" style="padding: 5px">  <!--se crea una caja que contendra imagen es del footes-->
     <div class="text-center">
-        <img src="../static/img/ods4.png" style="width:110px; height: 110px"> <!--imagenes del footer:-->
-        <img src="../static/img/onu.png"  style="width:500px; height: 110px">
+        <img src="{{ url_for('static', filename='img/ods4.png') }}" style="width:110px; height: 110px"> <!--imagenes del footer:-->
+        <img src="{{ url_for('static', filename='img/onu.png') }}" style="width:500px; height: 110px">
       </div>
   </div>  
   <!--+++++++++++++++++++footer++++++++++++++++++++++++-->
