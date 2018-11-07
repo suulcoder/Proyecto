@@ -18,7 +18,34 @@
 			    <li class="list-group-item"> Tipo de Usuario : {{ tipo }}</li> <!--Se le pueden agreagar mas li para poder crear nuevos campos ... -->
 			  </ul>
 			  <div class="card-body">
-			    <a href="#" class="card-link">Editar perfil</a>
+				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	 				 Editar perfil
+					</button>
+
+									<!--aqui se modifica el cuadro emergente por medio de eventos de Js-->
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">Editar perfil</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      	<ul>
+					      		<li><a>Aqui irn los inputs Saul podes poner los que qurras, yo no los puse porque me tira error, al parecer se requiere modificar algo del main no lo sé pero lo intenté con eso de render_field y me tira error</a></li> 
+					      		<input type="text" name="nombre">
+					      	</ul>	
+
+					        </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->
+					        <button type="button" class="btn btn-primary">Guardar cambios</button> <!--este boton guarda los cambios, aqui podes hacer el submit saul, si queres editalo luego yo le pongo estilo-->
+					      </div>
+					    </div>
+					  </div>
+					</div>
 			  </div>
 			</div>
 		
@@ -45,7 +72,7 @@
  				<ul class="list-group list-group-flush">
  					<form = method="post" id="login-form">
 					    {% for item in CursosAdministrados %}
-					    	<input type="submit" class="btn btn-primary  btn-lg btn-block" name="submit_button" value={{item}}>
+					    	<input type="submit" class="btn btn-primary btn-lg btn-block" name="submit_button" value={{item}}>
 					    	<br>
 					    {% endfor %}
 					</form>	
