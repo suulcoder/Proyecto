@@ -18,21 +18,49 @@
 			    <li class="list-group-item"> Tipo de Usuario : {{ tipo }}</li> <!--Se le pueden agreagar mas li para poder crear nuevos campos ... -->
 			  </ul>
 			  <div class="card-body">
-			    <a href="#" class="card-link">Editar perfil</a>
+				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	 				 Editar perfil
+					</button>
+
+									<!--aqui se modifica el cuadro emergente por medio de eventos de Js-->
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">Editar perfil</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      	{% from "_formhelpers.html" import render_field %}
+				            <form = method="post" id="signin-form">
+				            <form>
+				              <div class="form-group">
+				                {{ render_field(formulario.nombres, type="text", class="form-control", placeholder="Nombres") }}
+				                {{ render_field(formulario.apellidos, type="text", class="form-control", placeholder="Apellidos") }}
+				              </div>
+				                {{ render_field(formulario.username, type="text", class="form-control", placeholder="Nombre de usuario")  }}
+				                {{ render_field(formulario.clave, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+				                {{ render_field(formulario.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+				                <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->
+							        <input type="submit" class= "btn btn-primary" name="submit_button" value="Guardar">
+							      </div>
+				              </form>
+					        </div>
+					    </div>
+					  </div>
+					</div>
 			  </div>
 			</div>
+		
 		
 		</div>
 		
 	</div>
 </div>
 <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
-	{% from "_formhelpers.html" import render_field %}
-    <form = method="post" id="login-form">
-    	<div class="form-group">
-    		<input type="submit" name="submit_button" value="+">
-    	</div>
-    </form>
 </p></h5>
 <div class="container" style="padding-top: 20px;">
 	<div class="row">
@@ -43,7 +71,8 @@
 			    <h5 class="card-title">Mis cursos asignados:</h5>
  				<ul class="list-group list-group-flush">
 				    {% for item in CursosInscritos %}
-				    	<li>{{ item}}</li>
+				    	<input type="submit" class="btn btn-primary btn-lg btn-block" name="submit_button" value={{item}}>
+					    <br>
 				    {% endfor %}
 				    <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
 					{% from "_formhelpers.html" import render_field %}

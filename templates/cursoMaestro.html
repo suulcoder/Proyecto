@@ -22,22 +22,65 @@
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
- 					{% for item in lecciones %}
- 					<li class="list-group-item">
- 						<input type="submit" class= "btn btn-primary" name="submit_button" value={{item}}>
- 						{{ item }}</li>
+ 					{% for item in lecciones%}
+ 						{% for item1 in item %}
+	 						<li class="list-group-item">
+	 						{{item1}}
+	 						</li>
+ 							<br>
+ 						{% endfor %}
+ 						<br><br>
  					{% endfor %}
+ 					{% for item in lecciones %}
+ 					
+ 					{% endfor %}
+ 					<div class="card-body">
+					    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+		 				 +
+						</button>
+
+										<!--aqui se modifica el cuadro emergente por medio de eventos de Js-->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">Leccion</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	{% from "_formhelpers.html" import render_field %}
+					            <form = method="post" id="signin-form">
+					            <form>
+					              <div class="form-group">
+					                
+					              </div>
+					                {{ render_field(formleccion.titulo, type="text", class="form-control", placeholder="Titulo de la leccion")  }}
+					                {{ render_field(formleccion.contenido, type="text", class="form-control", placeholder="Contenido de la leccion")  }}
+					             <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->
+							        <input type="submit" class= "btn btn-primary" name="submit_button" value="Guardar">
+							      </div>
+					              </form>
+						        </div>
+						    </div>
+						  </div>
+						</div>
+				  </div>
+				</div>
+			
  				</ul>
- 				<button type="button" class= "btn btn-secondary" value="+">+</button> <!--este boton sirve para agregar mas lecciones-->
  			</div>
- 		</div>
  	</div>
  </div>
  <div class="container" style="padding: 30px;">
  	<div class="row">
- 		<div class="col">
-			<input type="submit" class= "btn btn-success" name="submit_button" value="Crear">
-		</div>
+ 		<form = method="post" id="signin-form">
+	 		<div class="col">
+				<input type="submit" class= "btn btn-success" name="submit_button" value="Hecho">
+			</div>
+		</form>
 	</div>
 </div>
  {%endblock%}

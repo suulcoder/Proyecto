@@ -25,6 +25,8 @@ class User:
 
     #   metodos para db / mongo
 
+
+
     def check_email(self, email):
         try:
             db_users.find({'email': email})
@@ -59,6 +61,59 @@ class User:
         print(self.email)
         print(self.state)
 
+    @staticmethod
+    def actualizar(username,nombre,apellidos,clave,user):
+        datos = db_users.find({'email':user})
+        lista = []
+        for i in datos:
+            lista.append(i['username'])
+            lista.append(i['tipo'])
+            lista.append(i['nombres'])
+            lista.append(i['apellidos'])
+            lista.append(i['email'])
+            lista.append(i['clave'])
+            lista.append(i['CursosInscritos'])
+            lista.append(i['CursosAdministrados'])
+        diccionario = {}
+        diccionario['username'] = username
+        diccionario['tipo'] = lista[1]
+        diccionario['nombres'] = nombre
+        diccionario['apellidos'] = apellidos
+        diccionario['email'] = lista[4]
+        diccionario['clave'] = clave
+        diccionario['CursosInscritos'] = lista[6]
+        diccionario['CursosAdministrados'] = lista[7]
+        db_users.update({'email':user},diccionario)
+
+    @staticmethod
+    def Unirse(user,nombre):
+        datos = db_users.find({'email':user})
+        lista = []
+        for i in datos:
+            lista.append(i['username'])
+            lista.append(i['tipo'])
+            lista.append(i['nombres'])
+            lista.append(i['apellidos'])
+            lista.append(i['email'])
+            lista.append(i['clave'])
+            lista.append(i['CursosInscritos'])
+            if lista[1] == 'M':
+                lista.append(i['CursosAdministrados'])
+        curso = db_cursos.find({'nombre':nombre})
+        new = lista[6]
+        for i in curso:
+            new.append(i['id_curso'])
+        diccionario = {}
+        diccionario['username']= lista[0]
+        diccionario['tipo'] = lista[1]
+        diccionario['nombres'] = lista[2]
+        diccionario['apellidos'] = lista[3]
+        diccionario['email'] = lista[4]
+        diccionario['clave'] = lista[5]
+        diccionario['CursosInscritos'] = new
+        if lista[1] == 'M':
+            diccionario['CursosAdministrados'] = lista[7]
+        db_users.update({'email':user},diccionario)
     #   setters / getters
     def getUsername(self):
         return self.username
@@ -131,7 +186,7 @@ class Maestro(User):
         diccionario['CursosInscritos'] = lista[6]
         diccionario['CursosAdministrados'] = lista[7]
         db_users.update({'email':maestro},diccionario)
-        
+        return(ingresar)
 
     def modificar_curso(self, curso=None):
         #   en lugar de usar overloading utilizamos parametros con valores default
@@ -197,6 +252,24 @@ class Curso:
         diccionario['lecciones'] = self.lecciones
         diccionario['id_curso'] = self.c_id
         db_cursos.insert(diccionario)
+     
+    @staticmethod
+    def actualizar(nombre,departamento,lecciones):
+        datos = db_cursos.find({'nombre':nombre})
+        lista = []
+        for i in datos:
+            lista.append(i['nombre'])
+            lista.append(i['departamento'])
+            lista.append(i['autor'])
+            lista.append(i['lecciones'])
+            lista.append(i['id_curso'])
+        diccionario = {}
+        diccionario['nombre'] = nombre
+        diccionario['departamento'] = lista[1]
+        diccionario['autor'] = lista[2]
+        diccionario['lecciones'] = lecciones
+        diccionario['id_curso'] = lista[4]
+        db_cursos.update({'nombre':nombre},diccionario)
 
     def getId(self):
         return(self.c_id)
@@ -225,10 +298,24 @@ class Curso:
 
 class Leccion:
 
-    def __init__(self, titulo, resumen):
+    def __init__(self, titulo, contenido,c_id):
         self.titulo = titulo
-        self.resumen = resumen
-        self.contenido = ''
+        self.resumen = contenido
+        datos = db_cursos.find({'id_curso':c_id})
+        lista = []
+        for i in datos:
+            lista.append(i['nombre'])
+            lista.append(i['departamento'])
+            lista.append(i['autor'])
+            lista.append(i['lecciones'])
+        diccionario = {}
+        diccionario['nombre'] = lista[0]
+        diccionario['departamento'] = lista[1]
+        diccionario['autor'] = lista[2]
+        lista[3].append([titulo,contenido])
+        diccionario['lecciones'] = lista[3]
+        diccionario['id_curso'] = c_id
+        db_cursos.update({'id_curso':c_id},diccionario)
         
 
     def editar_cont(self, nuevo):

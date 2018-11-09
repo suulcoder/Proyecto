@@ -39,3 +39,7 @@ class CrearCurso(Form):
 
 class infoCurso(Form):
 	departamento = StringField('Departamento del curso')
+
+class formleccion(Form):
+	titulo = StringField('Titulo')
+	contenido = StringField('Escriba el contenido de la lección')
