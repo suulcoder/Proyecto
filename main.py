@@ -23,7 +23,6 @@ import pymongo
 conexion = pymongo.MongoClient()#Realizamos conexiones con Base de Datos
 db = conexion.Learn4
 coleccion = db.Usuarios
-database = DbQueries(db)
 app = Flask(__name__)#Iniciamos Flask
 app.config.from_object(DevelopmentConfig)
 
@@ -93,6 +92,11 @@ def user(usuario):#Index de URL
 		lista.append(i['email'])
 		lista.append(i['tipo'])
 		lista.append(i['CursosInscritos'])
+	listainscritos = []
+	for i in lista[5]:
+		cursodb = db.Cursos.find({'id_curso':i})
+		for j in cursodb:
+			listainscritos.append(j['nombre'])
 	if lista[4]=='M':
 		return redirect('maestro/'+usuario)
 	if request.method == 'POST':
@@ -101,8 +105,13 @@ def user(usuario):#Index de URL
 		elif request.form['submit_button'] == 'Guardar':
 			User.actualizar(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.clave.data,usuario)
 			return redirect('user/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
+		for t in listainscritos:
+			if request.form['submit_button'] == t:
+				return redirect('curso/'+t+'/'+usuario)
 	elif request.method == 'GET':
-		return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], formulario=formulario)	
+		return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, formulario=formulario)	
 
 
 @app.route('/maestro/<usuario>', methods=['GET','POST'])
@@ -124,6 +133,11 @@ def maestro(usuario):#Index de URL
 		cursodb = db.Cursos.find({'id_curso':i})
 		for j in cursodb:
 			listcursos.append(j['nombre'])
+	listainscritos = []
+	for i in lista[5]:
+		cursodb = db.Cursos.find({'id_curso':i})
+		for j in cursodb:
+			listainscritos.append(j['nombre'])
 	if request.method == 'POST':
 		if request.form['submit_button'] == '+':
 			return redirect('buscar/'+usuario)
@@ -132,12 +146,14 @@ def maestro(usuario):#Index de URL
 		elif request.form['submit_button'] == 'Guardar':
 			User.actualizar(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.clave.data,usuario)
 			return redirect('maestro/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
 		for t in listcursos:
 			if request.form['submit_button'] == t:
 				return redirect('curso/'+t+'/'+usuario)
 	elif request.method == 'GET':
-		return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear, formulario=formulario)
-	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear, formulario=formulario)
+		return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, CursosAdministrados=listcursos, crear=crear, formulario=formulario)
+	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, CursosAdministrados=listcursos, crear=crear, formulario=formulario)
 		
 @app.route('/buscar/<usuario>', methods=['GET', 'POST'])
 def buscar(usuario):
@@ -149,6 +165,8 @@ def buscar(usuario):
 		if request.method == 'POST':
 			if request.form['submit_button'] == t:
 				return redirect('curso/'+t+'/'+usuario)
+			elif request.form['submit_button'] == "Loggedout":
+				return redirect('')
 			elif request.form == 'GET':
 				return render_template('menu-cursos.html', lista=lista_cursos)
 	return render_template('menu-cursos.html', lista=lista_cursos)
@@ -175,10 +193,11 @@ def curso(nombre,usuario):
 		if lista[2] == usuario:
 			if request.method == 'POST':
 				if request.form['submit_button'] == 'editar curso':
-					User.Unirse(usuario,nombre)
-					return('course/'+nombre+'/'+usuario)
+					return redirect('editcurso/'+nombre+'/'+usuario)
+				elif request.form['submit_button'] == "Loggedout":
+					return redirect('')
 			elif request.method == 'GET':
-				return render_template('mycurso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+				return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
 		else:
 			if request.method == 'POST':
 				if request.form['submit_button'] == 'Unirse':
@@ -200,6 +219,8 @@ def course(nombre,usuario):
 	if request.method == 'POST':
 		if request.form['submit_button'] == 'editar curso':
 			return redirect('editcurso/'+nombre+'/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
 	elif request.method == 'GET':
 		return render_template('Course.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
 	else:
@@ -236,6 +257,8 @@ def nuevocurso(nombre,usuario):
 					ids = Maestro.CrearCurso(name, formulario.departamento.data, usuario)
 					Leccion(formleccion.titulo.data,formleccion.contenido.data,ids)
 					return redirect('editcurso/'+name+'/'+usuario)
+				elif request.form['submit_button'] == "Loggedout":
+					return redirect('')
 			elif request.method == 'GET':
 				return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[], formleccion=formleccion)
 			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista_cursos[1], formleccion=formleccion)
@@ -263,6 +286,8 @@ def editcurso(nombre,usuario):#
 				ids = lista[3]
 				Leccion(formleccion.titulo.data,formleccion.contenido.data,ids)
 				return redirect('editcurso/'+nombre+'/'+usuario)
+			elif request.form['submit_button'] == "Loggedout":
+				return redirect('')
 		elif request.method == 'GET':
 			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1],formleccion=formleccion)
 		return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1],formleccion=formleccion)

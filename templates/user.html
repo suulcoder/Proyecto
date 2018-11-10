@@ -1,10 +1,10 @@
 <!--Usuario loggeado-->
-{% extends "barra.html" %}
+{% extends "barraUsuario.html" %}
 {% block content %}
 
 <div class="container" style="padding: 30px; justify-content: center;">
 	<div class="row align-items-center">
-		<div class="col-4"></div> 
+		<div class="col-4" id="per"></div> 
 		<div class="col-8">	
 			<div class="card" style="width: 18rem;">
 			  <img class="card-img-top" src="../static/img/pen.jpg" alt="Card image cap">
@@ -67,13 +67,15 @@
 		<div class="col-12">
 			<div class="card">
 			  <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">Cursos</p></h5>
-			  <div class="card-body">
+			  <div class="card-body" id="mis">
 			    <h5 class="card-title">Mis cursos asignados:</h5>
  				<ul class="list-group list-group-flush">
+ 					<form = method="post" id="login-form">
 				    {% for item in CursosInscritos %}
 				    	<input type="submit" class="btn btn-primary btn-lg btn-block" name="submit_button" value={{item}}>
 					    <br>
 				    {% endfor %}
+					</form>
 				    <h5 class="card-header bg-secondary" ><p class="text-center text-white" style="font-size: 2rem">
 					{% from "_formhelpers.html" import render_field %}
 				    <form = method="post" id="login-form">
