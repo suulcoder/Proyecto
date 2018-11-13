@@ -33,16 +33,22 @@
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					      	<ul>
-					      		<li><a>Aqui irn los inputs Saul podes poner los que qurras, yo no los puse porque me tira error, al parecer se requiere modificar algo del main no lo sé pero lo intenté con eso de render_field y me tira error</a></li> 
-					      		<input type="text" name="nombre">
-					      	</ul>	
-
+					      	{% from "_formhelpers.html" import render_field %}
+				            <form = method="post" id="signin-form">
+				            <form>
+				              <div class="form-group">
+				                {{ render_field(formulario.nombres, type="text", class="form-control", placeholder="Nombres") }}
+				                {{ render_field(formulario.apellidos, type="text", class="form-control", placeholder="Apellidos") }}
+				              </div>
+				                {{ render_field(formulario.username, type="text", class="form-control", placeholder="Nombre de usuario")  }}
+				                {{ render_field(formulario.clave, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+				                {{ render_field(formulario.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}
+				                <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->
+							        <input type="submit" class= "btn btn-primary" name="submit_button" value="Guardar">
+							      </div>
+				              </form>
 					        </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->
-					        <button type="button" class="btn btn-primary">Guardar cambios</button> <!--este boton guarda los cambios, aqui podes hacer el submit saul, si queres editalo luego yo le pongo estilo-->
-					      </div>
 					    </div>
 					  </div>
 					</div>

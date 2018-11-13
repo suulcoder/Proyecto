@@ -23,7 +23,6 @@ import pymongo
 conexion = pymongo.MongoClient()#Realizamos conexiones con Base de Datos
 db = conexion.Learn4
 coleccion = db.Usuarios
-database = DbQueries(db)
 app = Flask(__name__)#Iniciamos Flask
 app.config.from_object(DevelopmentConfig)
 
@@ -83,6 +82,7 @@ def index():#Index de URLS
 
 @app.route('/user/<usuario>', methods=['GET','POST'])
 def user(usuario):#Index de URL
+	formulario = forms.SignInForm(request.form)
 	datos = coleccion.find({'email':usuario})
 	lista = []
 	for i in datos:
@@ -92,18 +92,31 @@ def user(usuario):#Index de URL
 		lista.append(i['email'])
 		lista.append(i['tipo'])
 		lista.append(i['CursosInscritos'])
+	listainscritos = []
+	for i in lista[5]:
+		cursodb = db.Cursos.find({'id_curso':i})
+		for j in cursodb:
+			listainscritos.append(j['nombre'])
 	if lista[4]=='M':
 		return redirect('maestro/'+usuario)
 	if request.method == 'POST':
 		if request.form['submit_button'] == '+':
-			return redirect('buscar/'+buscar.palabra.data+'/'+usuario)
-		else:
-			pass
+			return redirect('buscar/'+usuario)
+		elif request.form['submit_button'] == 'Guardar':
+			User.actualizar(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.clave.data,usuario)
+			return redirect('user/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
+		for t in listainscritos:
+			if request.form['submit_button'] == t:
+				return redirect('curso/'+t+'/'+usuario)
 	elif request.method == 'GET':
-		return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5])	
+		return render_template('user.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, formulario=formulario)	
+
 
 @app.route('/maestro/<usuario>', methods=['GET','POST'])
 def maestro(usuario):#Index de URL
+	formulario = forms.SignInForm(request.form)
 	crear = forms.CrearCurso(request.form)
 	datos = coleccion.find({'email':usuario})
 	lista = []
@@ -120,17 +133,27 @@ def maestro(usuario):#Index de URL
 		cursodb = db.Cursos.find({'id_curso':i})
 		for j in cursodb:
 			listcursos.append(j['nombre'])
+	listainscritos = []
+	for i in lista[5]:
+		cursodb = db.Cursos.find({'id_curso':i})
+		for j in cursodb:
+			listainscritos.append(j['nombre'])
 	if request.method == 'POST':
 		if request.form['submit_button'] == '+':
 			return redirect('buscar/'+usuario)
 		elif request.form['submit_button'] == 'Crear':
 			return redirect('nuevocurso/'+crear.palabra.data+'/'+usuario)
+		elif request.form['submit_button'] == 'Guardar':
+			User.actualizar(formulario.username.data,formulario.nombres.data,formulario.apellidos.data,formulario.clave.data,usuario)
+			return redirect('maestro/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
 		for t in listcursos:
 			if request.form['submit_button'] == t:
 				return redirect('curso/'+t+'/'+usuario)
 	elif request.method == 'GET':
-		return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear)
-	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=lista[5], CursosAdministrados=listcursos, crear=crear)
+		return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, CursosAdministrados=listcursos, crear=crear, formulario=formulario)
+	return render_template('maestro.html', username=lista[0], nombre=lista[1], apellidos=lista[2], email=lista[3], tipo=lista[4], CursosInscritos=listainscritos, CursosAdministrados=listcursos, crear=crear, formulario=formulario)
 		
 @app.route('/buscar/<usuario>', methods=['GET', 'POST'])
 def buscar(usuario):
@@ -142,13 +165,11 @@ def buscar(usuario):
 		if request.method == 'POST':
 			if request.form['submit_button'] == t:
 				return redirect('curso/'+t+'/'+usuario)
+			elif request.form['submit_button'] == "Loggedout":
+				return redirect('')
 			elif request.form == 'GET':
 				return render_template('menu-cursos.html', lista=lista_cursos)
 	return render_template('menu-cursos.html', lista=lista_cursos)
-
-@app.route('/curso/<nombre>/editleccion/<numero>/<usuario>')
-def editleccion(nombre,numero,usuario):#
-	return('ok')
 
 @app.route('/curso/<nombre>/<usuario>', methods=['GET', 'POST'])
 def curso(nombre,usuario):
@@ -157,17 +178,59 @@ def curso(nombre,usuario):
 	for i in datos:
 		lista.append(i['nombre'])
 		lista.append(i['lecciones'])
-		lista.append(i['autor'])	
-	if lista[2] == usuario:
-		if request.method == 'POST':
-			if request.form['submit_button'] == 'editar curso':
-				return redirect('editcurso/'+nombre+'/'+usuario)
-		elif request.method == 'GET':
-			return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
-	return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+		lista.append(i['autor'])
+		lista.append(i['id_curso'])
+	curso = db.Usuarios.find({'email':usuario})
+	for i in curso:
+		lista.append(i['CursosInscritos'])
+	inscrito = False
+	for i in lista[4]:
+		if i == lista[3]:
+			inscrito = True
+	if inscrito == True:
+		return redirect('course/'+nombre+'/'+usuario)
+	else:
+		if lista[2] == usuario:
+			if request.method == 'POST':
+				if request.form['submit_button'] == 'editar curso':
+					return redirect('editcurso/'+nombre+'/'+usuario)
+				elif request.form['submit_button'] == "Loggedout":
+					return redirect('')
+			elif request.method == 'GET':
+				return render_template('curso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+		else:
+			if request.method == 'POST':
+				if request.form['submit_button'] == 'Unirse':
+					User.Unirse(usuario,nombre)
+					return redirect('course/'+nombre+'/'+usuario)
+			elif request.method == 'GET':
+				return render_template('mycurso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+	return render_template('mycurso.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+							
+@app.route('/course/<nombre>/<usuario>', methods=['GET', 'POST'])
+def course(nombre,usuario):
+	datos = db.Cursos.find({'nombre':nombre})
+	lista = []
+	for i in datos:
+		lista.append(i['nombre'])
+		lista.append(i['lecciones'])
+		lista.append(i['autor'])
+		lista.append(i['id_curso'])
+	if request.method == 'POST':
+		if request.form['submit_button'] == 'editar curso':
+			return redirect('editcurso/'+nombre+'/'+usuario)
+		elif request.form['submit_button'] == "Loggedout":
+			return redirect('')
+	elif request.method == 'GET':
+		return render_template('Course.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+	else:
+		return render_template('Course.html', nombre=lista[0], lecciones=lista[1], autor=lista[2])
+
+
 
 @app.route('/nuevocurso/<nombre>/<usuario>', methods=['GET','POST'])
 def nuevocurso(nombre,usuario):
+	formleccion = forms.formleccion(request.form)
 	name = nombre.replace(' ','_')
 	datos = coleccion.find({'email':usuario})
 	lista = []
@@ -190,33 +253,44 @@ def nuevocurso(nombre,usuario):
 				if request.form['submit_button'] == 'Crear':
 					Maestro.CrearCurso(name, formulario.departamento.data, usuario)
 					return redirect('curso/'+name+'/'+usuario)
-				elif request.form['submit_button'] == '+':
-					return redirect('curso/'+name+'/editleccion/'+str(len(lista_cursos[1])+1)+'/'+usuario)
+				elif request.form['submit_button'] == 'Guardar':
+					ids = Maestro.CrearCurso(name, formulario.departamento.data, usuario)
+					Leccion(formleccion.titulo.data,formleccion.contenido.data,ids)
+					return redirect('editcurso/'+name+'/'+usuario)
+				elif request.form['submit_button'] == "Loggedout":
+					return redirect('')
 			elif request.method == 'GET':
-				return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[])
-			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista_cursos[1])
+				return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[], formleccion=formleccion)
+			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista_cursos[1], formleccion=formleccion)
 	else:
 		return redirect('curso/'+usuario)
 
-@app.route('/editcurso/<nombre>/<usuario>')
+@app.route('/editcurso/<nombre>/<usuario>', methods=['GET','POST'])
 def editcurso(nombre,usuario):#
+	formleccion = forms.formleccion(request.form)
 	datos = db.Cursos.find({'nombre':nombre})
 	lista = []
 	for i in datos:
 		lista.append(i['nombre'])
 		lista.append(i['lecciones'])
 		lista.append(i['autor'])
+		lista.append(i['id_curso'])
+	lecciones = lista[1]
 	if lista[2] == usuario:
 		formulario = forms.infoCurso(request.form)
 		if request.method == 'POST':
-			if request.form['submit_button'] == 'Crear':
-				Curso.actualizar(nombre, formulario.departamento.data, lecciones)
+			if request.form['submit_button'] == 'Hecho':
+				Curso.actualizar(nombre, formulario.departamento.data,lecciones)
 				return redirect('curso/'+nombre+'/'+usuario)
-			elif request.form['submit_button'] == '+':
-				return redirect('curso/'+nombre+'/editleccion/'+str(len(lista_cursos[1])+1)+'/'+usuario)
+			elif request.form['submit_button'] == 'Guardar':
+				ids = lista[3]
+				Leccion(formleccion.titulo.data,formleccion.contenido.data,ids)
+				return redirect('editcurso/'+nombre+'/'+usuario)
+			elif request.form['submit_button'] == "Loggedout":
+				return redirect('')
 		elif request.method == 'GET':
-			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=[])
-		return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1])
+			return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1],formleccion=formleccion)
+		return render_template('cursoMaestro.html', nombre=nombre, formulario=formulario, lecciones=lista[1],formleccion=formleccion)
 	else:
 		return redirect('curso/'+nombre+'/'+usuario)
 
