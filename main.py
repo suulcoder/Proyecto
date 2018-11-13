@@ -226,4 +226,5 @@ def page_not_found(e):
 	return render_template('error.html')
 
 if __name__ == '__main__':
-	app.run(port=5000)#Corre el sistema y nos permite que al actualizar esta se actualice automaticamente
+	#app.run(host="172.20.10.2", port=5000)   #Corre el sistema y nos permite que al actualizar esta se actualice automaticamente
+	app.run(port=5000)
