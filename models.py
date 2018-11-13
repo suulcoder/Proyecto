@@ -7,9 +7,9 @@ db_cursos = db.Cursos
 categorias = []
 
 
-class User:
+class User:#Clase Usuario
 
-    def __init__(self, username, nombres, apellidos, email, clave, tipo):
+    def __init__(self, username, nombres, apellidos, email, clave, tipo):#Constructor
         self.username = username
         self.nombre = nombres
         self.apellidos = apellidos
@@ -25,7 +25,7 @@ class User:
 
     #   metodos para db / mongo
 
-    def __generate_id(self):
+    def __generate_id(self):#Generar Id
         #   metodos privados
         try:
             self.id = db_users.find().count() +1
@@ -35,7 +35,7 @@ class User:
             print(e)
   
 
-    @staticmethod
+    @staticmethod#Este metodo permite que se pueda actualizar los datos de un Usuario dentro de la base datos
     def actualizar(username,nombre,apellidos,clave,user):
         datos = db_users.find({'email':user})
         lista = []
@@ -57,12 +57,12 @@ class User:
         diccionario['clave'] = clave
         diccionario['CursosInscritos'] = lista[6]
         diccionario['CursosAdministrados'] = lista[7]
-        db_users.update({'email':user},diccionario)
+        db_users.update({'email':user},diccionario)#Actualizamos la base de datos
 
-    @staticmethod
+    @staticmethod#Este metodo permite que un usuario se una a un curso
     def Unirse(user,nombre):
         datos = db_users.find({'email':user})
-        lista = []
+        lista = []#Tomamos datos
         for i in datos:
             lista.append(i['username'])
             lista.append(i['tipo'])
@@ -87,11 +87,11 @@ class User:
         diccionario['CursosInscritos'] = new
         if lista[1] == 'M':
             diccionario['CursosAdministrados'] = lista[7]
-        db_users.update({'email':user},diccionario)
+        db_users.update({'email':user},diccionario)#Actulizamos la base de datos
 
-class Maestro(User):
+class Maestro(User):#Clase Maestro hereda de User
 
-    def __init__(self, username, nombres, apellidos, email, clave, tipo):
+    def __init__(self, username, nombres, apellidos, email, clave, tipo):#Constructor
         User.__init__(self, username, nombres, apellidos, email, clave, tipo)
         self.CursosAdministrados = []
         self.CursosInscritos = []
@@ -104,9 +104,9 @@ class Maestro(User):
        	diccionario['clave'] = self.clave
        	diccionario['CursosInscritos'] = self.CursosInscritos
        	diccionario['CursosAdministrados'] = self.CursosAdministrados
-        db_users.insert(diccionario)
+        db_users.insert(diccionario)#Se agrega a la base de datos
 
-    @staticmethod
+    @staticmethod#Metdo que permite a un maestro crear un curso, siempre evaluando que sea un maestro dentro de la base de datos
     def CrearCurso(nombre, departamento, maestro):
         datos = db_users.find({'email':maestro})
         lista = []
@@ -119,7 +119,7 @@ class Maestro(User):
             lista.append(i['clave'])
             lista.append(i['CursosInscritos'])
             lista.append(i['CursosAdministrados'])
-        curso = Curso(nombre,departamento,maestro)
+        curso = Curso(nombre,departamento,maestro)#Se crea el curso
         ingresar = curso.getId()
         lista[7].append(ingresar)
         diccionario = {}
@@ -131,15 +131,15 @@ class Maestro(User):
         diccionario['clave'] = lista[5]
         diccionario['CursosInscritos'] = lista[6]
         diccionario['CursosAdministrados'] = lista[7]
-        db_users.update({'email':maestro},diccionario)
+        db_users.update({'email':maestro},diccionario)#Se actualiza
         return(ingresar)
 
-class Alumno(User):
+class Alumno(User):#Clase alumno que hereda de User
 
-    def __init__(self, username, nombres, apellidos, email, clave,tipo):
+    def __init__(self, username, nombres, apellidos, email, clave,tipo):#Constructor
         User.__init__(self, username, nombres, apellidos, email, clave,tipo)
         self.id_curso = int
-        diccionario = {}
+        diccionario = {}#Creamos diccionario para agregar a la pagina
        	diccionario['username']=	self.username
        	diccionario['tipo'] = self.tipo
        	diccionario['nombres'] = self.nombre
@@ -147,28 +147,28 @@ class Alumno(User):
        	diccionario['email'] = self.email
        	diccionario['clave'] = self.clave
        	diccionario['CursosInscritos'] = self.CursosInscritos
-       	db_users.insert(diccionario)
+       	db_users.insert(diccionario)#Se agrega a la base de datos
 
-class Curso:
+class Curso:#Clase Curso
 
-    def __init__(self, nombre, departamento, User):
-        nombre = nombre.replace(' ','_')
+    def __init__(self, nombre, departamento, User):#Constructor
+        nombre = nombre.replace(' ','_')#Remplazamos los espacios por guion bajo, para evitar errores
         self.nombre = nombre
         self.departamento = departamento
         self.autor = User
         self.lecciones = []
-        self.c_id = db_cursos.find().count()+1
+        self.c_id = db_cursos.find().count()+1#Creamos ID
         diccionario = {}
         diccionario['nombre'] = self.nombre
         diccionario['departamento'] = self.departamento
         diccionario['autor'] = self.autor
         diccionario['lecciones'] = self.lecciones
         diccionario['id_curso'] = self.c_id
-        db_cursos.insert(diccionario)
+        db_cursos.insert(diccionario)#Agregamos los datos a la base de datos
      
-    @staticmethod
+    @staticmethod#Metodo estatico que permite actualizar los datos de un curso
     def actualizar(nombre,departamento,lecciones):
-        datos = db_cursos.find({'nombre':nombre})
+        datos = db_cursos.find({'nombre':nombre})#Totmamos datos
         lista = []
         for i in datos:
             lista.append(i['nombre'])
@@ -182,26 +182,14 @@ class Curso:
         diccionario['autor'] = lista[2]
         diccionario['lecciones'] = lecciones
         diccionario['id_curso'] = lista[4]
-        db_cursos.update({'nombre':nombre},diccionario)
+        db_cursos.update({'nombre':nombre},diccionario)#Actualizamos los datos
 
-    def getId(self):
-        return(self.c_id)
+class Leccion:#Clase Leccion
 
-    def __generate_id(self):
-        #   metodos privados
-        try:
-            self.c_id += db_cursos.find().count()
-            #   de momento solo cuenta usuarios y se agrega. ese
-        except Exception as e:
-            #   mejorar exceptions
-            print(e)
-
-class Leccion:
-
-    def __init__(self, titulo, contenido,c_id):
+    def __init__(self, titulo, contenido,c_id):#Constructor
         self.titulo = titulo
         self.resumen = contenido
-        datos = db_cursos.find({'id_curso':c_id})
+        datos = db_cursos.find({'id_curso':c_id})#Tomamos los datos existentes
         lista = []
         for i in datos:
             lista.append(i['nombre'])
@@ -215,6 +203,6 @@ class Leccion:
         lista[3].append([titulo,contenido])
         diccionario['lecciones'] = lista[3]
         diccionario['id_curso'] = c_id
-        db_cursos.update({'id_curso':c_id},diccionario)
+        db_cursos.update({'id_curso':c_id},diccionario)#Actualizamos los datos
         
         
