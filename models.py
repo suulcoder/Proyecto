@@ -120,7 +120,7 @@ class Maestro(User):#Clase Maestro hereda de User
             lista.append(i['CursosInscritos'])
             lista.append(i['CursosAdministrados'])
         curso = Curso(nombre,departamento,maestro)#Se crea el curso
-        ingresar = curso.getId()
+        ingresar = curso.c_id
         lista[7].append(ingresar)
         diccionario = {}
         diccionario['username']= lista[0]
