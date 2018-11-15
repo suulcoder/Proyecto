@@ -1,15 +1,27 @@
- {%extends "barraMaestro.html"%}
+
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+cursoMaestro  -  contiene los cursos que ha creado el maestro
+-->
+
+ {%extends "barraMaestro.html"%} <!-- hereda de barraMaestro la barra de navegacion para navegar por la plataforma -->
  {% block content %}
   <div class="jumbotron jumbotron-fluid">
- 	<h1 class="display-4" style="padding: 25px;"> Nombre del curso:  {{ nombre }} </h1>
+ 	<h1 class="display-4" style="padding: 25px;"> Nombre del curso:  {{ nombre }} </h1> <!--despliega el nombre del curso-->
  </div>
  	<div class="container">
  		<div class="row">
 	 		<div class="col-12">
-			 {% from "_formhelpers.html" import render_field %}
+			 {% from "_formhelpers.html" import render_field %}  <!-- esta sentecia se utiliza para poder utilizar los renderfields los cuales son los campos para ingresar datos -->
 			<form = method="post" id="login-form">
 				<div class="form-group">
-					{{ render_field(formulario.departamento, type="text", class="form-control", placeholder="Nombre del curso" ) }}
+					{{ render_field(formulario.departamento, type="text", class="form-control", placeholder="Departamento del curso" ) }} <!-- se ingresa el departamento al que pertenece el curso creado-->
 				</div>
 			</div>
 		</div>
@@ -21,7 +33,7 @@
  				<div class="card-header">
  					Curso
  				</div>
- 				<ul class="list-group list-group-flush">
+ 				<ul class="list-group list-group-flush">  <!-- desde el archivo de python se pasan las lecciones guardadas en la base de datos y se imprimen por medio de un ciclo for-->
  					{% for item in lecciones%}
  						{% for item1 in item %}
 	 						<li class="list-group-item">
@@ -56,7 +68,7 @@
 					              <div class="form-group">
 					                
 					              </div>
-					                {{ render_field(formleccion.titulo, type="text", class="form-control", placeholder="Titulo de la leccion")  }}
+					                {{ render_field(formleccion.titulo, type="text", class="form-control", placeholder="Titulo de la leccion")  }}   <!-- aqui se modifca el perfil del maestro-->
 					                {{ render_field(formleccion.contenido, type="text", class="form-control", placeholder="Contenido de la leccion")  }}
 					             <div class="modal-footer">
 							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> <!--este boton cierra el cuadro emergente-->

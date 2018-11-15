@@ -1,3 +1,16 @@
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+editarPerfilUsuario  -  template para editar la información que se desplega en el perfil de usuario
+-->
+
+
+
 {% extends "barraUsuario.html" %}
 
 {% block content %}
@@ -23,9 +36,10 @@
             {% from "_formhelpers.html" import render_field %}
             <form = method="post" id="signin-form">
             <form>
+              <!-- este es un formulario que permite editar los campo de nombre, nombre de usuario, apellidos y la contraseña-->
               <div class="form-group">
                 {{ render_field(form.nombres, type="text", class="form-control", placeholder="Nombres") }}
-                {{ render_field(form.apellidos, type="text", class="form-control", placeholder="Apellidos") }}
+                {{ render_field(form.apellidos, type="text", class="form-control", placeholder="Apellidos") }}  <!--en estos campos se ingresan los datos correspondientes-->
               </div>
                 {{ render_field(form.username, type="text", class="form-control", placeholder="Nombre de usuario")  }}
                 {{ render_field(form.clave, type="password", class="form-control", id="exampleInputPassword1", placeholder="Contraseña") }}

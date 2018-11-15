@@ -1,5 +1,16 @@
-<!--template para ver el curso por parte del alumno (no se puede editar)-->
-<!--Pagina de inicio del maestro -->
+
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+mycurso  -  template para ver el curso por parte del alumno (no se puede editar)
+-->
+
+
 
 {% extends "barraUsuario.html" %}
 {% block content %}
@@ -16,7 +27,7 @@
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
- 					{% for item in lecciones%}
+ 					{% for item in lecciones%}<!--por medio de una lista proviniente de la base de datos se muestra con un ciclo for todos los cursos disponibles en la plataforma-->
  						{% for item1 in item %}
  							{{ item1 }}
  							<br>

@@ -1,11 +1,24 @@
-{% extends "barra.html"%}
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+menu-cursos  -  template que muestra los cursos disponibles en la plataforma
+-->
+
+
+
+{% extends "barra.html"%}  <!--quiere decir que hereda de barra una barra para navegar en la platafomra-->
 
 {% block content%}
 
 <h5 class="card-title">Todos los cursos:</h5>
 	<form = method="post" id="login-form">
 	<ul class="list-group list-group-flush">
-	{% for item in lista %}
+	{% for item in lista %}												<!--por medio de una lista proviniente de la base de datos se muestra con un ciclo for todos los cursos disponibles en la plataforma-->
 		<input type="submit" name="submit_button" value={{item}}>
 	{% endfor %}
 </ul>	

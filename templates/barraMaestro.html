@@ -1,3 +1,17 @@
+
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+barraMaestro -  barra que contiene los botones necesarios para que el maesto navegue por la plataforma , es heredable
+-->
+
+
+
 <!DOCTYPE html> <!--Se inicializa la estructura HTML-->
 <html>
 <head>
@@ -44,19 +58,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!--se crea un div responsive para acomodar los demas botones-->
           <ul class="navbar-nav mr-auto nav-justify-content-center"> <!--se crea una lista con links dentro de ella los cuales van a ser los botones-->
-            <li class="nav-item"> <!--este es lel link para about us-->
+            <li class="nav-item"> <!--este es lel link para ver los cursos-->
               <form = method="post" id="login-form">
-                <input type="submit" name="submit_button" value="Mis Cursos">
+
+                <input class="btn btn-link text-light" type="submit" name="submit_button" value="Mis Cursos">
               </form>
             </li>
-            <li class="nav-item"> <!--este es lel link para iniciar sesion-->
+            <li class="nav-item"> <!--este es lel link para editar perfil-->
               <form = method="post" id="login-form">
-                <input type="submit" name="submit_button" value="Perfil">
+                <input class="btn btn-link text-light" type="submit" name="submit_button" value="Perfil" >
               </form>
             </li>
-            <li class="nav-item"> <!--este es el link para crear una nueva cuenta-->
+            <li class="nav-item"> <!--este es el link para sailr-->
               <form = method="post" id="login-form">
-                <input type="submit" name="submit_button" value="Loggedout">
+                <input  class="btn btn-link text-light" type="submit" name="submit_button" value="Salir">
               </form>
             </li>
           </ul>
@@ -68,12 +83,21 @@
 {% block content %}
 {% endblock %}
   <!--+++++++++++++++++++footer++++++++++++++++++++++++-->
-  <div class="jumbotron jumbotron-fluid bg-danger" style="padding: 5px">  <!--se crea una caja que contendra imagen es del footer-->
-    <div class="text-center">
-        <img src="{{ url_for('static', filename='img/ods4.png') }}" style="width:110px; height: 110px"> <!--imagenes del footer:-->
-        <img src="{{ url_for('static', filename='img/onu.png') }}" style="width:500px; height: 110px">
-      </div>
-  </div>  
+<div class="container">
+  <div class="row ">
+      <div class="jumbotron jumbotron-fluid bg-danger col-12" style="padding: 5px">     <!--en esta seccion se encuentra el footer el cual contiene imagenes representativas al ODS y a lso demas ODS-->
+        
+        <div class="col-xs-6 col-md-12">
+       
+            <img src="../static/img/ods4.png"  class="img-fluid" alt="Responsive image" style="width:110px; height: 110px">
+          </div>
+          <div class="col-xs-6 col-md-12">
+            <img src="../static/img/onu.png" class="img-fluid" alt="Responsive image" style="width:500px; height: 110px">
+          </div>
+      </div> 
+    </div>
+  </div> 
+
   <!--+++++++++++++++++++footer++++++++++++++++++++++++-->
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

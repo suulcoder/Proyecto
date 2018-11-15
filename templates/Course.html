@@ -1,23 +1,32 @@
-<!--template para ver el curso por parte del alumno (no se puede editar)-->
-<!--Pagina de inicio del maestro -->
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
 
-{% extends "barraUsuario.html" %}
-{% block content %}
- <div class="jumbotron jumbotron-fluid">
- 		 <h1 class="display-4"> {{ nombre }} </h1>
+course  -  template para ver el curso por parte del alumno (no se puede editar)
+-->
+
+
+{% extends "barraUsuario.html" %} <!-- hereda de barra de Usuario la barra de navegacion-->
+{% block content %} 
+ <div class="jumbotron jumbotron-fluid">  <!-- crea un cuadro contenedor -->
+ 		 <h1 class="display-4"> {{ nombre }} </h1> <!--se despliega el nombre del usuario-->
  		 <h5 > {{ autor }} </h5>
  </div>
 
  <div class="container">
  	<div class="row">
  		<div class="col-12">
- 			<div class="card" style="width: 18rem;">
+ 			<div class="card" style="width: 18rem;">  <!--se despliega un cuadro similar a una ficha que contiene las lecciones del curso-->
  				<div class="card-header">
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
  					{% for item in lecciones%}
- 						{% for item1 in item %}
+ 						{% for item1 in item %}  <!--se recibe las lista prveniente del archivo de python y se recorre un ciclo para poder moestrarla-->
  							{{ item1 }}
  							<br>
  						{% endfor %}

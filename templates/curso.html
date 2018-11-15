@@ -1,9 +1,22 @@
-<!--template para ver el curso por parte del alumno (no se puede editar)-->
+<!--Proyecto Final POO Learn4
+Integrantes:
+  Saul Contreras
+  Roberto Figueroa
+  Gerardo Mendez
+  Maria Isabel
+  Randy Venegas
+
+curso  -  template para ver el curso por parte del alumno (no se puede editar)
+-->
+
+
+
+
 <!--Pagina de inicio del maestro -->
 
-{% extends "barraUsuario.html" %}
+{% extends "barraUsuario.html" %} <!--hereda de barraUsuario ya que contiene la barra de usuario para navegar en la plataforma-->
 {% block content %}
- <div class="jumbotron jumbotron-fluid">
+ <div class="jumbotron jumbotron-fluid">  <!--se crea un cuadro contenedro-->
  		 <h1 class="display-4"> {{ nombre }} </h1>
  		 <h5 > {{ autor }} </h5>
  </div>
@@ -16,7 +29,7 @@
  					Curso
  				</div>
  				<ul class="list-group list-group-flush">
- 					{% for item in lecciones%}
+ 					{% for item in lecciones%} <!--se recibe las lista prveniente del archivo de python y se recorre un ciclo para poder moestrarla-->
  						{% for item1 in item %}
  							{{ item1 }}
  							<br>
