@@ -81,6 +81,20 @@ barraUsuario - contiene una barra de navegacion para que el usuario pueda navega
 {% block content %}
 {% endblock %}
 
+<div class="container">
+  <div class="row ">
+      <div class="jumbotron jumbotron-fluid bg-danger col-12" style="padding: 5px">     <!--en esta seccion se encuentra el footer el cual contiene imagenes representativas al ODS y a lso demas ODS-->
+        
+        <div class="col-xs-6 col-md-12">
+       
+            <img src="{{ url_for('static', filename='ods4.png') }}" alt="Responsive image" style="width:110px; height: 110px">
+          </div>
+          <div class="col-xs-6 col-md-12">
+            <img src="{{ url_for('static', filename='onu.png') }}" class="img-fluid" alt="Responsive image" style="width:500px; height: 110px">
+          </div>
+      </div> 
+    </div>
+  </div> 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
